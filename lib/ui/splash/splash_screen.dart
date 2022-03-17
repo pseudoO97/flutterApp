@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+      children: const <Widget>[
         Center(
             child: Text("Loading"),
           ),
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTimer() {
-    var duration = Duration(milliseconds: 3000);
+    var duration = const Duration(milliseconds: 3000);
     return Timer(duration, redirect);
   }
 

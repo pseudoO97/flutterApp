@@ -29,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kLightGrey,
+      backgroundColor: kLightBlue,
       key: _scaffoldKey,
       body: Stack(
         children: <Widget>[
@@ -59,17 +59,17 @@ class _SignInScreenState extends State<SignInScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
               decoration: BoxDecoration(
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                    color: Colors.black12, //spread radius
-                    blurRadius: 10,
-                    offset: Offset(1, 1),
+                    color: Colors.black54, //spread radius
+                    blurRadius: 8,
+                    offset: Offset(2, 6),
                   )
                 ],
                 color: kWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,7 +82,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12, //spread radius
                           blurRadius: 1,
@@ -105,7 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: const Icon(
                             Icons.people_outline,
                             size: 30,
-                            color: kLightGreen,
+                            color: kBlue,
                           ),
                         ),
                         SizedBox(
@@ -119,7 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   : null,
                               textAlign: TextAlign.left,
                               obscureText: false,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Adresse email',
                                 border: InputBorder.none,
                               ),
@@ -131,11 +131,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Container(
                     // mot de passe
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12, //spread radius
                           blurRadius: 1,
@@ -158,7 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: const Icon(
                             Icons.lock_outline,
                             size: 30,
-                            color: kLightGreen,
+                            color: kBlue,
                           ),
                         ),
                         SizedBox(
@@ -172,7 +172,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   : null,
                               textAlign: TextAlign.left,
                               obscureText: true,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Mot de passe',
                                 border: InputBorder.none,
                               ),
@@ -182,50 +182,60 @@ class _SignInScreenState extends State<SignInScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   authProvider.status == Status.Authenticating
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: kLightGreen,
-                            padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
+                      : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: kBlue,
+                                  padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: const Text(
+                                    "Se connecter",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    FocusScope.of(context)
+                                        .unfocus(); //to hide the keyboard - if any
+                          
+                                    bool status =
+                                        await authProvider.signInWithEmailAndPassword(
+                                            _emailController.text,
+                                            _passwordController.text);
+                          
+                                    if (!status) {
+                                      _scaffoldKey.currentState!
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            "L'adresse email ou le mot de passe est incorrect."),
+                                      ));
+                                    } else {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(Routes.home);
+                                    }
+                                  }
+                                }),
                           ),
-                          child: Text(
-                            "Se connecter".toUpperCase(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              FocusScope.of(context)
-                                  .unfocus(); //to hide the keyboard - if any
-
-                              bool status =
-                                  await authProvider.signInWithEmailAndPassword(
-                                      _emailController.text,
-                                      _passwordController.text);
-
-                              if (!status) {
-                                _scaffoldKey.currentState!
-                                    .showSnackBar(SnackBar(
-                                  content: Text(
-                                      "L'adresse email ou le mot de passe est incorrect."),
-                                ));
-                              } else {
-                                Navigator.of(context)
-                                    .pushReplacementNamed(Routes.home);
-                              }
-                            }
-                          }),
+                        ],
+                      ),
                   authProvider.status == Status.Authenticating
                       ? Center(
                           child: null,
