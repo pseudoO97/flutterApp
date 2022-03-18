@@ -17,16 +17,22 @@ class IndividualRegister extends StatefulWidget {
 class _IndividualRegisterState extends State<IndividualRegister> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
-  late TextEditingController _pseudoController;
+  late TextEditingController _firstNameController;
+  late TextEditingController _lastNameController;
+  late TextEditingController _birthdayController;
+  late TextEditingController _addressController;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _pseudoController = TextEditingController(text: "");
+    _firstNameController = TextEditingController(text: "");
+    _lastNameController = TextEditingController(text: "");
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
+    _birthdayController = TextEditingController(text: "");
+    _addressController = TextEditingController(text: "");
   }
 
   @override
@@ -83,8 +89,8 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Center(child: textSection),
                   ),
-                  
                   Container(
+                  // First name
                     decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(
@@ -107,7 +113,166 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                             color: Colors.white,
                           ),
                           child: const Icon(
-                            Icons.people_outline,
+                            Icons.assignment_ind_outlined,
+                            size: 30,
+                            color: kLightGreen,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 60,
+                          width: 230,
+                          child: Center(
+                            child: TextFormField(
+                              controller: _firstNameController,
+                              validator: (value) => value!.isEmpty
+                                  ?  "Veuillez renseigner votre prénom"
+                                  : null,
+                              textAlign: TextAlign.left,
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                hintText: 'Prénom',
+                                border: InputBorder.none,
+                              ),
+                              autocorrect: false,
+                              keyboardType: TextInputType.name,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                   Container(
+                  // Last name
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12, //spread radius
+                          blurRadius: 1,
+                          offset: Offset(0, 1),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                    ),
+                    height: 60,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: const Icon(
+                            Icons.perm_identity,
+                            size: 30,
+                            color: kLightGreen,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 60,
+                          width: 230,
+                          child: Center(
+                            child: TextFormField(
+                              controller: _lastNameController,
+                              validator: (value) => value!.isEmpty
+                                  ?  "Veuillez renseigner votre nom"
+                                  : null,
+                              textAlign: TextAlign.left,
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                hintText: 'Nom d\'usage',
+                                border: InputBorder.none,
+                              ),
+                              autocorrect: false,
+                              keyboardType: TextInputType.name,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                   Container(
+                  // Birthday
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12, //spread radius
+                          blurRadius: 1,
+                          offset: Offset(0, 1),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                    ),
+                    height: 60,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: const Icon(
+                            Icons.date_range_rounded,
+                            size: 30,
+                            color: kLightGreen,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 60,
+                          width: 230,
+                          child: Center(
+                            child: TextFormField(
+                              controller: _birthdayController,
+                              validator: (value) => value!.isEmpty
+                                  ?  "Veuillez renseigner votre date de naissance"
+                                  : null,
+                              textAlign: TextAlign.left,
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                hintText: 'Date de naissance',
+                                border: InputBorder.none,
+                              ),
+                              autocorrect: false,
+                              keyboardType: TextInputType.datetime,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                  // email
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12, //spread radius
+                          blurRadius: 1,
+                          offset: Offset(0, 1),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                    ),
+                    height: 60,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: const Icon(
+                            Icons.email,
                             size: 30,
                             color: kLightGreen,
                           ),
@@ -170,6 +335,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                           width: 230,
                           child: Center(
                             child: TextFormField(
+                              keyboardType: TextInputType.visiblePassword,
                               controller: _passwordController,
                               validator: (value) => value!.length < 6
                                   ? "Votre mot de passe est trop court, il faut minimum 6 caractères"
@@ -215,8 +381,15 @@ class _IndividualRegisterState extends State<IndividualRegister> {
 
                               UserModel userModel = await authProvider
                                   .registerWithEmailAndPassword(
-                                      _emailController.text,
-                                      _passwordController.text);
+                                       _emailController.text,
+                                    _passwordController.text,
+                                    'individual',
+                                    '',
+                                    _firstNameController.text,
+                                    _lastNameController.text,
+                                    _addressController.text,
+                                    _birthdayController.text,
+                                );
 
                               if (userModel.uid == 'weak-password') {
                                 showDialog(

@@ -5,6 +5,6 @@ This class work together with FirestoreService and FirestoreDatabase.
  */
 
 class FirestorePath {
-  static String intervention(String uid) => 'interventions/$uid';
-  static String interventions() => 'interventions';
+  static String user(String uid) => 'user/$uid';
+  static String users() => 'users';
 }

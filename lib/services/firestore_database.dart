@@ -30,16 +30,16 @@ class FirestoreDatabase {
   final _firestoreService = FirestoreService.instance;
 
   //Méthodes pour la collection des interventions
-  Stream<InterventionModel> interventionStream({required String uid}) =>
+  Stream<InterventionModel> userStream({required String uid}) =>
       _firestoreService.documentStream(
-        path: FirestorePath.intervention(uid),
+        path: FirestorePath.user(uid),
         builder: (data, documentId) =>
             InterventionModel.fromMap(data, documentId),
       );
 
   Stream<List<InterventionModel>> interventionsStream() {
     return _firestoreService.collectionStream(
-      path: FirestorePath.interventions(),
+      path: FirestorePath.users(),
       queryBuilder: (query) => query.where('user_email',
           isEqualTo: FirebaseAuth.instance.currentUser == null
               ? false
@@ -49,11 +49,11 @@ class FirestoreDatabase {
     );
   }
 
-  Future<void> updateData(
-          {required String interventionId,
+  Future<void> updateUserData(
+          {required String userId,
           required Map<String, dynamic> data}) async =>
       await _firestoreService.update(
-        path: FirestorePath.intervention(interventionId),
+        path: FirestorePath.user(userId),
         data: data,
       );
 }
