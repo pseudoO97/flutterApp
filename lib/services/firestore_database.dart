@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:hilmy/models/intervention_model.dart';
+import 'package:hilmy/models/person_model.dart';
 import 'package:hilmy/models/task_model.dart';
+import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/services/firestore_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,20 +32,18 @@ class FirestoreDatabase {
   final _firestoreService = FirestoreService.instance;
 
   //Méthodes pour la collection des interventions
-  Stream<InterventionModel> userStream({required String uid}) =>
+  Stream<PersonModel> userStream({required String uid}) =>
       _firestoreService.documentStream(
         path: FirestorePath.user(uid),
         builder: (data, documentId) =>
-            InterventionModel.fromMap(data, documentId),
+            PersonModel.fromMap(data, documentId),
       );
 
-  Stream<List<InterventionModel>> interventionsStream() {
+      
+
+  Stream<List<InterventionModel>> usersStream() {
     return _firestoreService.collectionStream(
       path: FirestorePath.users(),
-      queryBuilder: (query) => query.where('user_email',
-          isEqualTo: FirebaseAuth.instance.currentUser == null
-              ? false
-              : FirebaseAuth.instance.currentUser!.email),
       builder: (data, documentId) =>
           InterventionModel.fromMap(data, documentId),
     );

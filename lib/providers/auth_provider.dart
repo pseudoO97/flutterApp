@@ -37,6 +37,14 @@ class AuthProvider extends ChangeNotifier {
 
   Stream<UserModel> get user => _auth.authStateChanges().map(_userFromFirebase);
 
+  UserModel? _user;
+
+  UserModel? get userType {
+    if (_status == Status.Authenticated) {
+      return _user;
+    }
+  }
+
   AuthProvider() {
     //initialise object
     _auth = FirebaseAuth.instance;
@@ -72,7 +80,16 @@ class AuthProvider extends ChangeNotifier {
 
   //Method for new user registration using email and password
   Future<UserModel> registerWithEmailAndPassword(
-      String email, String password, String type, String? category, String firstName, String lastName, String address, String birthday) async {
+      String email, 
+      String password, 
+      String type, 
+      String? category, 
+      String firstName, 
+      String lastName, 
+      String address, 
+      String birthday,
+      String sexe,
+      ) async {
     try {
       _status = Status.Registering;
       notifyListeners();

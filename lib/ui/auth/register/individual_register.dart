@@ -21,6 +21,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
   late TextEditingController _lastNameController;
   late TextEditingController _birthdayController;
   late TextEditingController _addressController;
+  late TextEditingController _sexeController;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -33,20 +34,22 @@ class _IndividualRegisterState extends State<IndividualRegister> {
     _passwordController = TextEditingController(text: "");
     _birthdayController = TextEditingController(text: "");
     _addressController = TextEditingController(text: "");
+    _sexeController = TextEditingController(text: "");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: kLightDark,
-      body: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: _buildForm(context),
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () {
+         Navigator.of(context).popAndPushNamed(Routes.bridge);
+          return Future.value(false);
+      },
+      child: MaterialApp(
+        key: _scaffoldKey,
+        home: Scaffold(
+          backgroundColor: kWhite,
+          body: _buildForm(context)
+        ),
       ),
     );
   }
@@ -66,431 +69,472 @@ class _IndividualRegisterState extends State<IndividualRegister> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12, //spread radius
-                    blurRadius: 10,
-                    offset: Offset(1, 1),
-                  )
-                ],
-                color: kWhite,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Center(child: textSection),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: textSection),
+                ),
+                Container(
+                // Sexe
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
                   ),
-                  Container(
-                  // First name
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12, //spread radius
-                          blurRadius: 1,
-                          offset: Offset(0, 1),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.female_outlined,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: DropdownInput(
+                            attribute: 'sexe', items: [
+                            {
+                              "label": "homme",
+                              "value": "male"
+                            },
+                            {
+                              "label": "Femme",
+                              "value": "female"
+                            },
+                            {
+                              "label": "Autre",
+                              "value": "other"
+                            },
+                          ], label: ''),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                // First name
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.assignment_ind_outlined,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: TextFormField(
+                            controller: _firstNameController,
+                            validator: (value) => value!.isEmpty
+                                ?  "Veuillez renseigner votre prénom"
+                                : null,
+                            textAlign: TextAlign.left,
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              hintText: 'Prénom',
+                              border: InputBorder.none,
+                            ),
+                            autocorrect: false,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                 Container(
+                // Last name
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.perm_identity,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: TextFormField(
+                            controller: _lastNameController,
+                            validator: (value) => value!.isEmpty
+                                ?  "Veuillez renseigner votre nom"
+                                : null,
+                            textAlign: TextAlign.left,
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              hintText: 'Nom d\'usage',
+                              border: InputBorder.none,
+                            ),
+                            autocorrect: false,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                 Container(
+                // Birthday
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.date_range_rounded,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: TextFormField(
+                            controller: _birthdayController,
+                            validator: (value) => value!.isEmpty
+                                ?  "Veuillez renseigner votre date de naissance"
+                                : null,
+                            textAlign: TextAlign.left,
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              hintText: 'Date de naissance',
+                              border: InputBorder.none,
+                            ),
+                            autocorrect: false,
+                            keyboardType: TextInputType.datetime,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                // email
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.email,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: TextFormField(
+                            controller: _emailController,
+                            validator: (value) => value!.isEmpty
+                                ?  "Veuillez renseigner un email valide"
+                                : null,
+                            textAlign: TextAlign.left,
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              hintText: 'Adresse email',
+                              border: InputBorder.none,
+                            ),
+                            autocorrect: false,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  // mot de passe
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.lock_outline,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            controller: _passwordController,
+                            validator: (value) => value!.length < 6
+                                ? "Votre mot de passe est trop court, il faut minimum 6 caractères"
+                                : null,
+                            textAlign: TextAlign.left,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: 'Mot de passe',
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                authProvider.status == Status.Registering
+                    ? const Center(
+                        child: const CircularProgressIndicator(),
+                      )
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: kLightGreen,
+                          padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15)),
+                          ),
+                        ),
+                        child: Text(
+                          "S'inscrire".toUpperCase(),
+                          style: const TextStyle(
                             color: Colors.white,
-                          ),
-                          child: const Icon(
-                            Icons.assignment_ind_outlined,
-                            size: 30,
-                            color: kLightGreen,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(
-                          height: 60,
-                          width: 230,
-                          child: Center(
-                            child: TextFormField(
-                              controller: _firstNameController,
-                              validator: (value) => value!.isEmpty
-                                  ?  "Veuillez renseigner votre prénom"
-                                  : null,
-                              textAlign: TextAlign.left,
-                              obscureText: false,
-                              decoration: const InputDecoration(
-                                hintText: 'Prénom',
-                                border: InputBorder.none,
-                              ),
-                              autocorrect: false,
-                              keyboardType: TextInputType.name,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                   Container(
-                  // Last name
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12, //spread radius
-                          blurRadius: 1,
-                          offset: Offset(0, 1),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: const Icon(
-                            Icons.perm_identity,
-                            size: 30,
-                            color: kLightGreen,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 60,
-                          width: 230,
-                          child: Center(
-                            child: TextFormField(
-                              controller: _lastNameController,
-                              validator: (value) => value!.isEmpty
-                                  ?  "Veuillez renseigner votre nom"
-                                  : null,
-                              textAlign: TextAlign.left,
-                              obscureText: false,
-                              decoration: const InputDecoration(
-                                hintText: 'Nom d\'usage',
-                                border: InputBorder.none,
-                              ),
-                              autocorrect: false,
-                              keyboardType: TextInputType.name,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                   Container(
-                  // Birthday
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12, //spread radius
-                          blurRadius: 1,
-                          offset: Offset(0, 1),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: const Icon(
-                            Icons.date_range_rounded,
-                            size: 30,
-                            color: kLightGreen,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 60,
-                          width: 230,
-                          child: Center(
-                            child: TextFormField(
-                              controller: _birthdayController,
-                              validator: (value) => value!.isEmpty
-                                  ?  "Veuillez renseigner votre date de naissance"
-                                  : null,
-                              textAlign: TextAlign.left,
-                              obscureText: false,
-                              decoration: const InputDecoration(
-                                hintText: 'Date de naissance',
-                                border: InputBorder.none,
-                              ),
-                              autocorrect: false,
-                              keyboardType: TextInputType.datetime,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                  // email
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12, //spread radius
-                          blurRadius: 1,
-                          offset: Offset(0, 1),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: const Icon(
-                            Icons.email,
-                            size: 30,
-                            color: kLightGreen,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 60,
-                          width: 230,
-                          child: Center(
-                            child: TextFormField(
-                              controller: _emailController,
-                              validator: (value) => value!.isEmpty
-                                  ?  "Veuillez renseigner un email valide"
-                                  : null,
-                              textAlign: TextAlign.left,
-                              obscureText: false,
-                              decoration: const InputDecoration(
-                                hintText: 'Adresse email',
-                                border: InputBorder.none,
-                              ),
-                              autocorrect: false,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    // mot de passe
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12, //spread radius
-                          blurRadius: 1,
-                          offset: Offset(0, 1),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: const Icon(
-                            Icons.lock_outline,
-                            size: 30,
-                            color: kLightGreen,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 60,
-                          width: 230,
-                          child: Center(
-                            child: TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: _passwordController,
-                              validator: (value) => value!.length < 6
-                                  ? "Votre mot de passe est trop court, il faut minimum 6 caractères"
-                                  : null,
-                              textAlign: TextAlign.left,
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                hintText: 'Mot de passe',
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  authProvider.status == Status.Registering
-                      ? const Center(
-                          child: const CircularProgressIndicator(),
-                        )
-                      : ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: kLightGreen,
-                            padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                          ),
-                          child: Text(
-                            "S'inscrire".toUpperCase(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              FocusScope.of(context)
-                                  .unfocus(); //to hide the keyboard - if any
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            FocusScope.of(context)
+                                .unfocus(); //to hide the keyboard - if any
 
-                              UserModel userModel = await authProvider
-                                  .registerWithEmailAndPassword(
-                                       _emailController.text,
-                                    _passwordController.text,
-                                    'individual',
-                                    '',
-                                    _firstNameController.text,
-                                    _lastNameController.text,
-                                    _addressController.text,
-                                    _birthdayController.text,
-                                );
+                            UserModel userModel = await authProvider
+                                .registerWithEmailAndPassword(
+                                     _emailController.text,
+                                  _passwordController.text,
+                                  'individual',
+                                  '',
+                                  _firstNameController.text,
+                                  _lastNameController.text,
+                                  _addressController.text,
+                                  _birthdayController.text,
+                                  _sexeController.text,
+                              );
 
-                              if (userModel.uid == 'weak-password') {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => errorMessage(
-                                      'Votre mot de passe doit faire minimum 6 caractères'),
-                                );
-                              } else if (userModel.uid ==
-                                  'email-already-in-use') {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => errorMessage(
-                                      'Cet email est déjà utilisé'),
-                                );
-                              } else if (userModel.uid == 'invalid-email') {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      errorMessage('L\'e-mail est invalide'),
-                                );
-                              } else if (userModel.uid == 'unknown') {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => errorMessage(
-                                      'Remplissez tous les champs'),
-                                );
+                            if (userModel.uid == 'weak-password') {
+                              showDialog(
+                                context: context,
+                                builder: (context) => errorMessage(
+                                    'Votre mot de passe doit faire minimum 6 caractères'),
+                              );
+                            } else if (userModel.uid ==
+                                'email-already-in-use') {
+                              showDialog(
+                                context: context,
+                                builder: (context) => errorMessage(
+                                    'Cet email est déjà utilisé'),
+                              );
+                            } else if (userModel.uid == 'invalid-email') {
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    errorMessage('L\'e-mail est invalide'),
+                              );
+                            } else if (userModel.uid == 'unknown') {
+                              showDialog(
+                                context: context,
+                                builder: (context) => errorMessage(
+                                    'Remplissez tous les champs'),
+                              );
+                            } else {
+                              bool status = await authProvider
+                                  .signInWithEmailAndPassword(
+                                      _emailController.text,
+                                      _passwordController.text);
+
+                              if (!status) {
+                                _scaffoldKey.currentState!
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "L'adresse email ou le mot de passe est incorrect."),
+                                ));
                               } else {
-                                bool status = await authProvider
-                                    .signInWithEmailAndPassword(
-                                        _emailController.text,
-                                        _passwordController.text);
-
-                                if (!status) {
-                                  _scaffoldKey.currentState!
-                                      .showSnackBar(const SnackBar(
-                                    content: Text(
-                                        "L'adresse email ou le mot de passe est incorrect."),
-                                  ));
-                                } else {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(Routes.home);
-                                }
+                                Navigator.of(context)
+                                    .pushReplacementNamed(Routes.home);
                               }
-
-                              // print(userModel);
-
-                              // if (userModel == null) {
-                              //   _scaffoldKey.currentState!
-                              //       .showSnackBar(SnackBar(
-                              //     content: Text("loginTxtErrorSignIn"),
-                              //   ));
-                              // }
                             }
-                          }),
-                  // : RaisedButton(
-                  //     child: Text(
-                  //       "loginBtnSignUp",
-                  //       style: Theme.of(context).textTheme.button,
-                  //     ),
-                  //     onPressed: () async {
-                  //       if (_formKey.currentState!.validate()) {
-                  //         FocusScope.of(context)
-                  //             .unfocus(); //to hide the keyboard - if any
 
-                  //         UserModel userModel =
-                  //             await authProvider.registerWithEmailAndPassword(
-                  //                 _emailController.text,
-                  //                 _passwordController.text);
+                            // print(userModel);
 
-                  //         if (userModel == null) {
-                  //           _scaffoldKey.currentState!.showSnackBar(SnackBar(
-                  //             content: Text("loginTxtErrorSignIn"),
-                  //           ));
-                  //         }
-                  //       }
-                  //     }),
-                  authProvider.status == Status.Registering
-                      ? const Center(
-                          child: null,
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 48),
-                          child: Center(
-                              child: Text(
-                            "Vous avez déjà un compte ?",
-                            style: Theme.of(context).textTheme.button,
-                          )),
-                        ),
-                  authProvider.status == Status.Registering
-                      ? const Center(
-                          child: null,
-                        )
-                      : TextButton(
-                          child: const Text("Se connecter"),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(Routes.login);
-                          },
-                        ),
-                ],
-              ),
+                            // if (userModel == null) {
+                            //   _scaffoldKey.currentState!
+                            //       .showSnackBar(SnackBar(
+                            //     content: Text("loginTxtErrorSignIn"),
+                            //   ));
+                            // }
+                          }
+                        }),
+                // : RaisedButton(
+                //     child: Text(
+                //       "loginBtnSignUp",
+                //       style: Theme.of(context).textTheme.button,
+                //     ),
+                //     onPressed: () async {
+                //       if (_formKey.currentState!.validate()) {
+                //         FocusScope.of(context)
+                //             .unfocus(); //to hide the keyboard - if any
+
+                //         UserModel userModel =
+                //             await authProvider.registerWithEmailAndPassword(
+                //                 _emailController.text,
+                //                 _passwordController.text);
+
+                //         if (userModel == null) {
+                //           _scaffoldKey.currentState!.showSnackBar(SnackBar(
+                //             content: Text("loginTxtErrorSignIn"),
+                //           ));
+                //         }
+                //       }
+                //     }),
+                authProvider.status == Status.Registering
+                    ? const Center(
+                        child: null,
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 48),
+                        child: Center(
+                            child: Text(
+                          "Vous avez déjà un compte ?",
+                          style: Theme.of(context).textTheme.button,
+                        )),
+                      ),
+                authProvider.status == Status.Registering
+                    ? const Center(
+                        child: null,
+                      )
+                    : TextButton(
+                        child: const Text("Se connecter"),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.login);
+                        },
+                      ),
+              ],
             ),
           ),
         ));

@@ -22,6 +22,7 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
   late TextEditingController _birthdayController;
   late TextEditingController _addressController;
   late TextEditingController _categoryController;
+  late TextEditingController _sexeController;
 
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -38,14 +39,23 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
     _birthdayController = TextEditingController(text: "");
     _addressController = TextEditingController(text: "");
     _categoryController = TextEditingController(text: "");
+    _sexeController = TextEditingController(text: "");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: kWhite,
-      body: _buildForm(context),
+    return WillPopScope(
+      onWillPop: () {
+        
+         Navigator.of(context).popAndPushNamed(Routes.bridge);
+          return Future.value(false);
+    
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: kWhite,
+        body: _buildForm(context),
+      ),
     );
   }
 
@@ -74,6 +84,60 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Center(child: textSection),
                 ),
+                 Container(
+                  // Sexe
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12, //spread radius
+                        blurRadius: 1,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.supervisor_account_rounded,
+                          size: 30,
+                          color: kLightGreen,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 60,
+                        width: 230,
+                        child: Center(
+                          child: DropdownInput(
+                            attribute: 'sexe', items: [
+                            {
+                              "label": "homme",
+                              "value": "male"
+                            },
+                            {
+                              "label": "Femme",
+                              "value": "female"
+                            },
+                            {
+                              "label": "Autre",
+                              "value": "other"
+                            },
+                          ], label: ''),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16,),
                  Container(
                 // First name
                   decoration: BoxDecoration(
@@ -478,6 +542,7 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
                                     _lastNameController.text,
                                     _addressController.text,
                                     _birthdayController.text,
+                                    _sexeController.text,
                                     );
 
                             if (userModel.uid == 'weak-password') {
