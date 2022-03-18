@@ -6,22 +6,25 @@ import 'package:hilmy/constants/app_styles.dart';
 import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/providers/auth_provider.dart';
 import 'package:hilmy/routes.dart';
+import 'package:hilmy/ui/widgets/form/dropdown_input.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatefulWidget {
+class IndividualRegister extends StatefulWidget {
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _IndividualRegisterState createState() => _IndividualRegisterState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _IndividualRegisterState extends State<IndividualRegister> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late TextEditingController _pseudoController;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _pseudoController = TextEditingController(text: "");
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
   }
@@ -59,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
               decoration: BoxDecoration(
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12, //spread radius
                     blurRadius: 10,
@@ -69,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: kWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -80,9 +83,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Center(child: textSection),
                   ),
+                  
                   Container(
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12, //spread radius
                           blurRadius: 1,
@@ -119,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   : null,
                               textAlign: TextAlign.left,
                               obscureText: false,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Adresse email',
                                 border: InputBorder.none,
                               ),
@@ -131,11 +135,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Container(
                     // mot de passe
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12, //spread radius
                           blurRadius: 1,
@@ -172,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   : null,
                               textAlign: TextAlign.left,
                               obscureText: true,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Mot de passe',
                                 border: InputBorder.none,
                               ),
@@ -182,10 +186,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   authProvider.status == Status.Registering
-                      ? Center(
-                          child: CircularProgressIndicator(),
+                      ? const Center(
+                          child: const CircularProgressIndicator(),
                         )
                       : ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -247,7 +251,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                 if (!status) {
                                   _scaffoldKey.currentState!
-                                      .showSnackBar(SnackBar(
+                                      .showSnackBar(const SnackBar(
                                     content: Text(
                                         "L'adresse email ou le mot de passe est incorrect."),
                                   ));
@@ -290,7 +294,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   //       }
                   //     }),
                   authProvider.status == Status.Registering
-                      ? Center(
+                      ? const Center(
                           child: null,
                         )
                       : Padding(
@@ -302,11 +306,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           )),
                         ),
                   authProvider.status == Status.Registering
-                      ? Center(
+                      ? const Center(
                           child: null,
                         )
                       : TextButton(
-                          child: Text("Se connecter"),
+                          child: const Text("Se connecter"),
                           onPressed: () {
                             Navigator.of(context)
                                 .pushReplacementNamed(Routes.login);
@@ -360,7 +364,7 @@ class SignInCustomClipper extends CustomClipper<Path> {
 
 Widget errorMessage(String text) => Dialog(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         height: 150,
         child: Center(
           child: Column(
@@ -370,7 +374,7 @@ Widget errorMessage(String text) => Dialog(
                 "images/logo-mintizy.png",
                 height: 20,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text("Erreur : " + text)

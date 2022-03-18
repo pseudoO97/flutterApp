@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: kBlue,
         title: IconButton(
-          icon: Icon(Icons.logout), 
+          icon: const Icon(Icons.logout), 
           onPressed: (() => {
               authProvider.signOut(),
               Navigator.of(context).pushNamedAndRemoveUntil(

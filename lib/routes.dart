@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hilmy/ui/auth/register_screen.dart';
+import 'package:hilmy/ui/auth/bridge.dart';
+import 'package:hilmy/ui/auth/register/individual_register.dart';
+import 'package:hilmy/ui/auth/register/professional_register.dart';
 import 'package:hilmy/ui/auth/sign_in_screen.dart';
 import 'package:hilmy/ui/home_screen.dart';
 import 'package:hilmy/ui/splash/splash_screen.dart';
@@ -9,13 +11,18 @@ class Routes {
 
   static const String splash = '/splash';
   static const String login = '/login';
-  static const String register = '/register';
   static const String home = '/home';
+  static const String bridge = '/choice';
+  static const String professionalRegister = '/professionalRegister';
+  static const String individualRegister = '/individualRegister';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => SignInScreen(),
-    register: (BuildContext context) => RegisterScreen(),
     home: (BuildContext context) => HomeScreen(),
+    bridge: (BuildContext context) => Bridge(),
+    professionalRegister : (BuildContext context) => ProfessionalRegister(),
+    individualRegister: (BuildContext context) => IndividualRegister(),
+
   };
 }

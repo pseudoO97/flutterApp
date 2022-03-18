@@ -1,30 +1,5 @@
 import 'package:flutter/material.dart';
 
-final Color preventiveColor = Color.fromRGBO(42, 157, 143, 1);
-final Color preventiveColorLighter = Color.fromRGBO(42, 157, 143, 0.25);
-final Color curativeColor = Color.fromRGBO(57, 126, 245, 1);
-final Color curativeColorLighter = Color.fromRGBO(57, 126, 245, .25);
-
-Color getInterventionColor(intervention, {bool lighter = false}) {
-  if (intervention == 'preventive') {
-    return lighter == true ? preventiveColorLighter : preventiveColor;
-  } else {
-    return lighter == true ? curativeColorLighter : curativeColor;
-  }
-}
-
-// void showStep({required bool step1, required bool step2, }) {
-//       step1 = !step1;
-//       step2 = !step2;
-// }
-// Color getInterventionColor(intervention, {bool lighter = false}) {
-//   if (intervention['type'] == 'preventive') {
-//     return lighter == true ? preventiveColorLighter : preventiveColor;
-//   } else {
-//     return lighter == true ? curativeColorLighter : curativeColor;
-//   }
-// }
-
 extension StringCasingExtension on String {
   String capitalize() => this.length > 0
       ? '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}'

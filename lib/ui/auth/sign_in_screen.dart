@@ -200,9 +200,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                         BorderRadius.all(Radius.circular(15)),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: const Text(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Text(
                                     "Se connecter",
                                     style: TextStyle(
                                       color: Colors.white,
@@ -223,7 +223,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           
                                     if (!status) {
                                       _scaffoldKey.currentState!
-                                          .showSnackBar(SnackBar(
+                                          .showSnackBar(const SnackBar(
                                         content: Text(
                                             "L'adresse email ou le mot de passe est incorrect."),
                                       ));
@@ -237,7 +237,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       ),
                   authProvider.status == Status.Authenticating
-                      ? Center(
+                      ? const Center(
                           child: null,
                         )
                       : Padding(
@@ -249,14 +249,14 @@ class _SignInScreenState extends State<SignInScreen> {
                           )),
                         ),
                   authProvider.status == Status.Authenticating
-                      ? Center(
+                      ? const Center(
                           child: null,
                         )
                       : TextButton(
-                          child: Text("Inscrivez-vous"),
+                          child: const Text("Inscrivez-vous"),
                           onPressed: () {
                             Navigator.of(context)
-                                .pushReplacementNamed(Routes.register);
+                                .pushReplacementNamed(Routes.bridge);
                           },
                         ),
                   // Center(

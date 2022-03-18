@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hilmy/auth_widget_builder.dart';
-import 'package:hilmy/constants/old_app_themes.dart';
 import 'package:hilmy/flavor.dart';
 import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/providers/auth_provider.dart';
