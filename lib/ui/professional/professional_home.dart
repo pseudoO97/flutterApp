@@ -12,18 +12,12 @@ class Professionalhome extends StatefulWidget {
 class _ProfessionalhomeState extends State<Professionalhome> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // await showDialog or Show add banners or whatever
-        // return true if the route to be popped
-         return true; // return false if you want to disable device back button click
-       },
-      child: Scaffold(
-        appBar: AppBar(title: IconButton(icon: Icon(Icons.login) , onPressed: () => {FirebaseAuth.instance.signOut(),  Navigator.of(context).pushReplacementNamed(Routes.login)},) ),
-       body: Container(
-          child: Text('professionnel'),
-        ),
-      ),
-    );
+    return Column(
+        children: const <Widget>[
+          Center(
+            child: Text('Mettez en ligne votre premier service !'),
+          )
+        ],
+      );
   }
 }

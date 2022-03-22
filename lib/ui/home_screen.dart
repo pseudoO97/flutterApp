@@ -23,19 +23,39 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     
    final firestoreDatabase =  Provider.of<FirestoreDatabase>(context, listen: false);
-    return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
-          builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Text("Something went wrong");
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: Text('Loading...'));
-              }
-              final DocumentSnapshot<Object?> user =
-                  snapshot.requireData;
-                  return MaterialApp(
-                    home: user['type'] == 'professional' ? const Professionalhome() :  const IndividualHome(),
+    return WillPopScope(
+       onWillPop: () {
+         Navigator.of(context).popAndPushNamed(Routes.login);
+          return Future.value(false);
+      },
+      child: StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+            builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text("Something went wrong");
+                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: Text('Loading...')
                   );
-          });
+                }
+                final DocumentSnapshot<Object?> user =
+                    snapshot.requireData;
+                    if (user['type'] == 'professional') {
+                      return Scaffold(
+                        appBar:  AppBar(title: IconButton(
+                          icon: const Icon(Icons.login) , 
+                          onPressed: () => {
+                            FirebaseAuth.instance.signOut(),  
+                            Navigator.of(context).pushReplacementNamed(Routes.login)
+                            },
+                          ), 
+                        ),
+                        body: Professionalhome(),
+                      ) ;
+                    } return const Scaffold(
+                      body: IndividualHome(),
+                    );
+            }),
+    );
   }
 }

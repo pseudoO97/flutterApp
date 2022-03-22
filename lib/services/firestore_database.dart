@@ -32,11 +32,11 @@ class FirestoreDatabase {
   final _firestoreService = FirestoreService.instance;
 
   //Méthodes pour la collection des interventions
-  Stream<PersonModel> userStream({required String uid}) =>
+  Stream<UserModel> userStream({required String uid}) =>
       _firestoreService.documentStream(
         path: FirestorePath.user(uid),
         builder: (data, documentId) =>
-            PersonModel.fromMap(data, documentId),
+            UserModel.fromMap(data, documentId),
       );
 
       
