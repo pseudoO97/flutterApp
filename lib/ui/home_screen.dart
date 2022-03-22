@@ -41,19 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 final DocumentSnapshot<Object?> user =
                     snapshot.requireData;
                     if (user['type'] == 'professional') {
-                      return Scaffold(
-                        appBar:  AppBar(title: IconButton(
-                          icon: const Icon(Icons.login) , 
-                          onPressed: () => {
-                            FirebaseAuth.instance.signOut(),  
-                            Navigator.of(context).pushReplacementNamed(Routes.login)
-                            },
-                          ), 
-                        ),
-                        body: Professionalhome(),
-                      ) ;
-                    } return const Scaffold(
-                      body: IndividualHome(),
+                      return Professionalhome(
+                        firstName:user['first_name']
+                      );
+                    } 
+                    return IndividualHome(
+                      firstName: user['first_name'],
                     );
             }),
     );

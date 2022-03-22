@@ -11,6 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:hilmy/services/firestore_service.dart';
 
+import '../models/category_model.dart';
+
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 /*
@@ -56,4 +58,12 @@ class FirestoreDatabase {
         path: FirestorePath.user(userId),
         data: data,
       );
+
+  Stream<List<CategoryModel>> categoriesStream() {
+    return _firestoreService.collectionStream(
+      path: FirestorePath.categories(),
+      builder: (data, documentId) =>
+          CategoryModel.fromMap(data, documentId),
+    );
+  }
 }
