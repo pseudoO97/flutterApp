@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:hilmy/models/intervention_model.dart';
 import 'package:hilmy/models/person_model.dart';
+import 'package:hilmy/models/service_model.dart';
 import 'package:hilmy/models/task_model.dart';
 import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/services/firestore_path.dart';
@@ -33,7 +34,7 @@ class FirestoreDatabase {
 
   final _firestoreService = FirestoreService.instance;
 
-  //Méthodes pour la collection des interventions
+  //Méthodes pour les utilisateurs
   Stream<UserModel> userStream({required String uid}) =>
       _firestoreService.documentStream(
         path: FirestorePath.user(uid),
@@ -59,11 +60,23 @@ class FirestoreDatabase {
         data: data,
       );
 
+  // Catégories
   Stream<List<CategoryModel>> categoriesStream() {
     return _firestoreService.collectionStream(
       path: FirestorePath.categories(),
       builder: (data, documentId) =>
           CategoryModel.fromMap(data, documentId),
+    );
+  }
+
+  // Services
+  Stream<List<ServiceModel>> servicesStream({required String? searchKey}) {
+    return _firestoreService.collectionStream(
+      path: FirestorePath.services(),
+      queryBuilder: (query) => query
+      .where('name', arrayContains: searchKey),
+      builder: (data, documentId) =>
+          ServiceModel.fromMap(data, documentId),
     );
   }
 }
