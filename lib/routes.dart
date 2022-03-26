@@ -4,6 +4,7 @@ import 'package:hilmy/ui/auth/register/individual_register.dart';
 import 'package:hilmy/ui/auth/register/professional_register.dart';
 import 'package:hilmy/ui/auth/sign_in_screen.dart';
 import 'package:hilmy/ui/home_screen.dart';
+import 'package:hilmy/ui/professional/form_add_service.dart';
 import 'package:hilmy/ui/splash/splash_screen.dart';
 
 class Routes {
@@ -15,6 +16,7 @@ class Routes {
   static const String bridge = '/choice';
   static const String professionalRegister = '/professionalRegister';
   static const String individualRegister = '/individualRegister';
+  static const String formAddService = '/formAddService';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
@@ -23,6 +25,8 @@ class Routes {
     bridge: (BuildContext context) => Bridge(),
     professionalRegister : (BuildContext context) => ProfessionalRegister(),
     individualRegister: (BuildContext context) => IndividualRegister(),
+    formAddService: (BuildContext context) => FormAddService(),
+
 
   };
 }

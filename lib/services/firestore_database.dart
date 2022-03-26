@@ -79,4 +79,21 @@ class FirestoreDatabase {
           ServiceModel.fromMap(data, documentId),
     );
   }
+
+   Future<void> addService({
+      required String id,
+      }) async =>
+      await _firestoreService.set(
+        path: FirestorePath.service(id),
+        data: {'_created': true, '_date_publication' : Timestamp.now(), 'hour': null, 'hehe': null},
+      );
+    Future<void> updateService({
+        required String attribute,
+      required dynamic value,
+      required String id,
+      }) async =>
+      await _firestoreService.update(
+        path: FirestorePath.service(id),
+        data: {attribute: value},
+      );
 }

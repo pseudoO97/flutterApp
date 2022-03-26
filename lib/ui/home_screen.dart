@@ -35,7 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const Text("Something went wrong");
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                    child: Text('Loading...')
+                    child: Scaffold(
+                      body: Center(
+                        child: Text('Loading'),
+                      ),
+                    ),
                   );
                 }
                 final DocumentSnapshot<Object?> user =
