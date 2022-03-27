@@ -52,12 +52,12 @@ class TextInput extends StatelessWidget {
                   width: 1.0,
                 ),
               ),
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 vertical: 0,
                 horizontal: 8,
               ),
               hintText: hintText,
-              hintStyle: TextStyle(color: kLightGrey),
+              hintStyle: const TextStyle(color: kLightGrey),
             ),
             style: darkSubtitleText,
             cursorColor: kLightGreen,

@@ -6,8 +6,8 @@ import 'package:hilmy/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
 class Professionalhome extends StatefulWidget {
-  final String firstName;
-  const Professionalhome({ Key? key, required this.firstName }) : super(key: key);
+  final String? firstName;
+  const Professionalhome({ Key? key, this.firstName }) : super(key: key);
 
   @override
   State<Professionalhome> createState() => _ProfessionalhomeState();
@@ -18,7 +18,7 @@ class _ProfessionalhomeState extends State<Professionalhome> {
   Widget build(BuildContext context) {
     final firestoreDatabase =  Provider.of<FirestoreDatabase>(context, listen: false);
    final _auth = FirebaseAuth.instance;
-    String firstName = widget.firstName;
+    String? firstName = widget.firstName;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

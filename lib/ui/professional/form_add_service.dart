@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hilmy/constants/app_colors.dart';
 import 'package:hilmy/routes.dart';
+import 'package:hilmy/ui/professional/professional_home.dart';
 import 'package:hilmy/ui/widgets/form/text_input.dart';
 
 class FormAddService extends StatefulWidget {
@@ -24,10 +25,10 @@ class _FormAddServiceState extends State<FormAddService> {
            key: _formKey,
           child: Column(
             children: [
-              const TextInput(label: 'Votre créneau', isRequired: false, attribute: 'hour'),
-              const TextInput(label: 'hehe', isRequired: false, attribute: 'hehe'),
+              const TextInput(label: 'Votre créneau', isRequired: true, attribute: 'hour'),
+              const TextInput(label: 'Prix', isRequired: true, attribute: 'price'),
               ElevatedButton(
-          child: const Text('Valider'), 
+          child: const Text('Publiez'), 
           onPressed: () => {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save(),

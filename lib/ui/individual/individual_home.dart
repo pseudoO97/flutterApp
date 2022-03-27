@@ -20,6 +20,7 @@ class _IndividualHomeState extends State<IndividualHome> {
   String name = '';
   @override
   Widget build(BuildContext context) {
+  var _auth = FirebaseAuth.instance;
   final firestoreDatabase =
         Provider.of<FirestoreDatabase>(context, listen: false);
     String firstName = widget.firstName;
@@ -112,13 +113,69 @@ class _IndividualHomeState extends State<IndividualHome> {
                         children: snapshot.requireData.docs
                             .where((service) => service['name'].contains(name))
                             .map((DocumentSnapshot<Object?> service) {
-                          return Text(service['name']);
+                          return Column(
+                            children: [
+                              Text(service['name']),
+                              ElevatedButton(
+                                onPressed: () => {
+                                  showDialog(
+                                    context: context, 
+                                    builder: (context) => Container(
+                                      height: 60,
+                                      width: 60,
+                                      child: ElevatedButton(
+                                        onPressed: () => {
+                                          firestoreDatabase.addAppointment(individual_id: _auth.currentUser!.uid, professionnal_id: service.id)
+                                        } ,
+                                        child: const Text('Je prends rendez-vous')
+                                      ),
+                                    ),
+                                  ),
+                                }, 
+                                child: const Text('Prendre rendez-vous'),
+                              ),
+                            ],
+                          );
                         }).toList(), // Très important sinon les types ne sont pas compatibles
                       ),
                     ),
                   );
                 }),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.lightBlueAccent.shade200
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () => {
+                  Navigator.of(context).pushNamed(
+                    Routes.appointmentHistory,
+                  ),
+                }, 
+                icon: const Icon(Icons.person),
+              ),
+              IconButton(
+                onPressed: () => {
+                  Navigator.of(context).pushNamed(
+                    Routes.appointmentHistory,
+                    arguments: _auth.currentUser?.uid,
+                  ),
+                }, 
+                icon: const Icon(Icons.person),
+              ),
+              IconButton(
+                onPressed: () => {}, 
+                icon: const Icon(Icons.person),
+              ),
+            ]
           ),
         ),
       ),

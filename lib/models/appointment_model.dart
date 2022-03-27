@@ -1,4 +1,4 @@
-class RdvModel {
+class AppointmentModel {
    final String? firebaseId;
    final String id;
    final dynamic date;
@@ -6,7 +6,7 @@ class RdvModel {
    final int? individualId;
    final int? professionnalId;
 
-  RdvModel({
+  AppointmentModel({
       this.firebaseId, 
       required this.id,
       this.date,
@@ -16,14 +16,14 @@ class RdvModel {
       });
 
 
-factory RdvModel.fromMap(Map<String, dynamic> data, String documentId) {
+factory AppointmentModel.fromMap(Map<String, dynamic> data, String documentId) {
      String id= data['id'];
      dynamic date = data['date'];
      bool done = data['done'];
      int individual_id = data['individual_id'];
      int professionnal_id = data['professionnal_id'];
 
-    return RdvModel(
+    return AppointmentModel(
         id: id,
         date: date,
         done: done,
