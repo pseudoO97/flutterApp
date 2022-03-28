@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hilmy/constants/app_colors.dart';
 import 'package:hilmy/routes.dart';
 
-
 class Bridge extends StatelessWidget {
   const Bridge({ Key? key }) : super(key: key);
 
@@ -14,45 +13,51 @@ class Bridge extends StatelessWidget {
           Navigator.of(context).popAndPushNamed(Routes.login);
           return Future.value(false);
       },
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-              const Text('Êtes-vous : '),
-              const SizedBox(height: 24,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () => { 
-                      Navigator.of(context).pushReplacementNamed(Routes.professionalRegister)
-                      },
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: kBlue
+      child: Scaffold( 
+        body: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column( 
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                      Image.asset('images/people.png', height: 70, width: 70),
+                      const Text('Êtes-vous : '),
+                      const SizedBox(height: 24),
+                      GestureDetector(
+                        onTap: () => { 
+                          Navigator.of(context).pushReplacementNamed(Routes.professionalRegister)
+                          },
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: kBlue
+                          ),
+                          child: const Text('Professionnel'),
+                        ),
                       ),
-                      child: const Text('Professionnel'),
-                    ),
-                  ),
-                  const SizedBox(width: 18,),
-                  GestureDetector(
-                    onTap: () => {
-                       Navigator.of(context).pushReplacementNamed(Routes.individualRegister)
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: kBlue
-                      ),
-                      child: const Text('Particulier'),
-                    ),
-                  ),
-                ],
-              )
-          ],
+                      const SizedBox(width: 18,),
+                      GestureDetector(
+                        onTap: () => {
+                           Navigator.of(context).pushReplacementNamed(Routes.individualRegister)
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                           decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: kBlue
+                          ),
+                          child: const Text('Particulier'),
+                        ),
+                      )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

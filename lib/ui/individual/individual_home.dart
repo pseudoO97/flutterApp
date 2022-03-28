@@ -111,7 +111,7 @@ class _IndividualHomeState extends State<IndividualHome> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: snapshot.requireData.docs
-                            .where((service) => service['name'].contains(name))
+                            .where((service) => service['name'].contains(name.toLowerCase()))
                             .map((DocumentSnapshot<Object?> service) {
                           return Column(
                             children: [
@@ -169,7 +169,7 @@ class _IndividualHomeState extends State<IndividualHome> {
                     arguments: _auth.currentUser?.uid,
                   ),
                 }, 
-                icon: const Icon(Icons.person),
+                icon: const Icon(Icons.history),
               ),
               IconButton(
                 onPressed: () => {}, 

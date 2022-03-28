@@ -1,44 +1,41 @@
 class AppointmentModel {
    final String? firebaseId;
-   final String id;
-   final dynamic date;
-   final bool? done;
-   final int? individualId;
-   final int? professionnalId;
+   final String? individualId;
+   final String? professionnalId;
+   final String? individualName;
+   final String? professionnalName;
 
   AppointmentModel({
       this.firebaseId, 
-      required this.id,
-      this.date,
-      this.done,
       this.individualId,
-      this.professionnalId
+      this.professionnalId,
+      this.individualName,
+      this.professionnalName
       });
 
 
 factory AppointmentModel.fromMap(Map<String, dynamic> data, String documentId) {
-     String id= data['id'];
-     dynamic date = data['date'];
-     bool done = data['done'];
-     int individual_id = data['individual_id'];
-     int professionnal_id = data['professionnal_id'];
+     String firebaseId = documentId;
+     String? individualId = data['individual_id'];
+     String? professionnalId = data['professionnal_id'];
+     String? individualName = data['individual_name'];
+     String? professionnalName = data['professionnal_name'];
 
     return AppointmentModel(
-        id: id,
-        date: date,
-        done: done,
-        individualId: individual_id,
-        professionnalId: professionnal_id,
-        );
+        firebaseId: firebaseId,
+        individualId: individualId,
+        professionnalId: professionnalId,
+        individualName: individualName,
+        professionnalName: professionnalName,
+      );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'date': date,
-      'done': done,
       'individual_id': individualId,
-      'professionnal_id':professionnalId
+      'professionnal_id':professionnalId,
+      'individual_name': individualName,
+      'professionnal_name': professionnalName
     };
   }
 }

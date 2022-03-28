@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:hilmy/models/appointment_model.dart';
 import 'package:hilmy/models/intervention_model.dart';
 import 'package:hilmy/models/service_model.dart';
 import 'package:hilmy/models/user_model.dart';
@@ -36,15 +37,13 @@ class FirestoreDatabase {
         path: FirestorePath.user(uid),
         builder: (data, documentId) =>
             UserModel.fromMap(data, documentId),
-      );
+  );
 
-      
-
-  Stream<List<InterventionModel>> usersStream() {
+  Stream<List<UserModel>> usersStream() {
     return _firestoreService.collectionStream(
       path: FirestorePath.users(),
       builder: (data, documentId) =>
-          InterventionModel.fromMap(data, documentId),
+          UserModel.fromMap(data, documentId),
     );
   }
 
@@ -54,7 +53,7 @@ class FirestoreDatabase {
       await _firestoreService.update(
         path: FirestorePath.user(userId),
         data: data,
-      );
+  );
 
   // Catégories
   Stream<List<CategoryModel>> categoriesStream() {
@@ -95,18 +94,23 @@ class FirestoreDatabase {
 
   // RDV
 
-  Stream<UserModel> appointmentStream({required String uid}) =>
+  Stream<AppointmentModel> appointmentStream({required String uid}) =>
       _firestoreService.documentStream(
         path: FirestorePath.appointment(uid),
         builder: (data, documentId) =>
-            UserModel.fromMap(data, documentId),
+            AppointmentModel.fromMap(data, documentId),
       );
 
-  Stream<List<InterventionModel>> appointmentsStream() {
+  Stream<List<AppointmentModel>> appointmentsStream({
+    required String role,
+    required String id,
+  }) {
     return _firestoreService.collectionStream(
       path: FirestorePath.appointments(),
       builder: (data, documentId) =>
-          InterventionModel.fromMap(data, documentId),
+          AppointmentModel.fromMap(data, documentId),
+          queryBuilder: (query) => query
+          .where(role, isEqualTo: id)
     );
   }
 
