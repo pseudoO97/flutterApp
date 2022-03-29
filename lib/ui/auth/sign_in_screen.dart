@@ -52,10 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget _buildForm(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
 
-    return StreamBuilder<Object>(
-      stream: null,
-      builder: (context, snapshot) {
-        return Form(
+    return Form(
             key: _formKey,
             child: SingleChildScrollView(
               child: Padding(
@@ -281,8 +278,6 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ));
       }
-    );
-  }
 
   Widget textSection = Container(
     margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),

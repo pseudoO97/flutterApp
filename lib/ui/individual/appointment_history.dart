@@ -16,6 +16,7 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
   Widget build(BuildContext context) {
     final firestoreDatabase =  Provider.of<FirestoreDatabase>(context, listen: false);
     final _auth = FirebaseAuth.instance;
+    var _userType = ModalRoute.of(context)?.settings.arguments;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -29,7 +30,7 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
           ),
         ),
         body: StreamBuilder(
-          stream: firestoreDatabase.appointmentsStream(role: 'individual_id', id: _auth.currentUser!.uid),
+          stream: firestoreDatabase.appointmentsStream(role: _userType.toString(), id: _auth.currentUser!.uid),
           builder: (context, snapshot) {
              if (snapshot.hasData) {
               List<AppointmentModel> appointments =
@@ -46,7 +47,11 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
                               return const Divider(height: 0.5);
                             },
                             itemBuilder: (context, index) {
-                              return Text(appointments[index].individualId ?? '');
+                              return Text(
+                                _userType == 'professionnal_id' ? 
+                                appointments[index].professionnalId ?? '' : 
+                                appointments[index].individualId ?? ''
+                              );
                             }
                         ),
                       ),
@@ -59,7 +64,11 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
                               return const Divider(height: 0.5);
                             },
                             itemBuilder: (context, index) {
-                              return Text(appointments[index].professionnalName ?? '');
+                               return Text(
+                                _userType == 'professionnal_id' ? 
+                                appointments[index].professionnalId ?? '' : 
+                                appointments[index].individualId ?? ''
+                              );
                             }
                         ),
                       ),

@@ -6,6 +6,7 @@ import 'package:hilmy/models/category_model.dart';
 import 'package:hilmy/models/service_model.dart';
 import 'package:hilmy/routes.dart';
 import 'package:hilmy/services/firestore_database.dart';
+import 'package:hilmy/ui/widgets/bottom_app.bar.dart';
 import 'package:provider/provider.dart';
 
 class IndividualHome extends StatefulWidget {
@@ -145,39 +146,8 @@ class _IndividualHomeState extends State<IndividualHome> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.lightBlueAccent.shade200
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () => {
-                  Navigator.of(context).pushNamed(
-                    Routes.appointmentHistory,
-                  ),
-                }, 
-                icon: const Icon(Icons.person),
-              ),
-              IconButton(
-                onPressed: () => {
-                  Navigator.of(context).pushNamed(
-                    Routes.appointmentHistory,
-                    arguments: _auth.currentUser?.uid,
-                  ),
-                }, 
-                icon: const Icon(Icons.history),
-              ),
-              IconButton(
-                onPressed: () => {}, 
-                icon: const Icon(Icons.person),
-              ),
-            ]
-          ),
-        ),
+      bottomNavigationBar: const BottomAppBarWidget(
+        type: 'individual_id',
       ),
     );
   }

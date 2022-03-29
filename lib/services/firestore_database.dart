@@ -92,6 +92,16 @@ class FirestoreDatabase {
         data: {attribute: value},
       );
 
+       Future<void> updateNameService({
+        required String firstName,
+        required String lastName,
+      required String id,
+      }) async =>
+      await _firestoreService.update(
+        path: FirestorePath.service(id),
+        data: {'first_name': firstName, 'last_name' : lastName},
+      );
+
   // RDV
 
   Stream<AppointmentModel> appointmentStream({required String uid}) =>
