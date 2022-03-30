@@ -18,35 +18,38 @@ class _FormAddServiceState extends State<FormAddService> {
   static final _formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
    final firestoreDatabase =  Provider.of<FirestoreDatabase>(context, listen: false);
    var args = ModalRoute.of(context)?.settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Publiez votre service'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-           key: _formKey,
-          child: Column(
-            children: [
-              const TextInput(label: 'Votre créneau', isRequired: true, attribute: 'hour'),
-              const TextInput(label: 'Prix', isRequired: true, attribute: 'price'),
-              ElevatedButton(
-                child: const Text('Publiez'), 
-                onPressed: () => {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save(),
-                    firestoreDatabase.updateNameService(
-                      firstName: args['firstName'],
-                      lastName: args['lastName'],
-                      id: FirebaseAuth.instance.currentUser!.uid,
-                    ),
-                  }
-                },
-              ),
-            ],
-          )
+      body: WillPopScope(
+        onWillPop: () {
+           Navigator.of(context).popAndPushNamed(Routes.home);
+          return Future.value(false);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+             key: _formKey,
+            child: Column(
+              children: [
+                const TextInput(label: 'Votre créneau', isRequired: true, attribute: 'hour'),
+                const TextInput(label: 'Prix', isRequired: true, attribute: 'price'),
+                ElevatedButton(
+                  child: const Text('Publiez'), 
+                  onPressed: () => {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save(),
+                      firestoreDatabase.updateService(attribute: 'online', value: true, id: FirebaseAuth.instance.currentUser!.uid)
+                    }
+                  },
+                ),
+              ],
+            )
+          ),
         ),
       ),
     );

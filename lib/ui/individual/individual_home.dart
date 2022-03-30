@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hilmy/constants/app_styles.dart';
 import 'package:hilmy/models/category_model.dart';
 import 'package:hilmy/models/service_model.dart';
+import 'package:hilmy/models/user_model.dart';
+import 'package:hilmy/providers/auth_provider.dart';
 import 'package:hilmy/routes.dart';
 import 'package:hilmy/services/firestore_database.dart';
 import 'package:hilmy/ui/widgets/bottom_app.bar.dart';
@@ -21,7 +23,8 @@ class _IndividualHomeState extends State<IndividualHome> {
   String name = '';
   @override
   Widget build(BuildContext context) {
-  var _auth = FirebaseAuth.instance;
+    final authProvider = Provider.of<AuthProvider>(context);
+    var _auth = FirebaseAuth.instance;
   final firestoreDatabase =
         Provider.of<FirestoreDatabase>(context, listen: false);
     String firstName = widget.firstName;
@@ -126,7 +129,7 @@ class _IndividualHomeState extends State<IndividualHome> {
                                       width: 60,
                                       child: ElevatedButton(
                                         onPressed: () => {
-                                          firestoreDatabase.addAppointment(individual_id: _auth.currentUser!.uid, professionnal_id: service.id)
+                                          firestoreDatabase.addAppointment(individual_id: _auth.currentUser!.uid, professionnal_id: service.id, name: authProvider.name)
                                         } ,
                                         child: const Text('Je prends rendez-vous')
                                       ),

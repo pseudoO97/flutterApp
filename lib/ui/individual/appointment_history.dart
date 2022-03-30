@@ -49,8 +49,8 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
                             itemBuilder: (context, index) {
                               return Text(
                                 _userType == 'professionnal_id' ? 
-                                appointments[index].professionnalId ?? '' : 
-                                appointments[index].individualId ?? ''
+                                appointments[index].individualName ?? '' : 
+                                appointments[index].professionnalName ?? ''
                               );
                             }
                         ),
@@ -66,8 +66,8 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
                             itemBuilder: (context, index) {
                                return Text(
                                 _userType == 'professionnal_id' ? 
-                                appointments[index].professionnalId ?? '' : 
-                                appointments[index].individualId ?? ''
+                                appointments[index].individualName ?? '' : 
+                                appointments[index].professionnalName ?? ''
                               );
                             }
                         ),

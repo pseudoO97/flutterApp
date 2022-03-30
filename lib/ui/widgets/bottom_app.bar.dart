@@ -42,8 +42,14 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
                 icon: const Icon(Icons.history),
               ),
               IconButton(
-                onPressed: () => {}, 
-                icon: const Icon(Icons.person),
+                onPressed: () => {
+                  widget.type == 'professionnal_id' ?
+                  Navigator.of(context).pushNamed(Routes.servicePage) :
+                   Navigator.of(context).pushNamed(Routes.home),
+                }, 
+                icon: widget.type == 'professionnal_id' ? 
+                      const Icon(Icons.table_chart_rounded) :
+                      const Icon(Icons.search)
               ),
             ]
           ),

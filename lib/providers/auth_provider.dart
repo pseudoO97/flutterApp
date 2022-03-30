@@ -32,8 +32,11 @@ class AuthProvider extends ChangeNotifier {
   late FirestoreDatabase firestoreDatabase;
   //Default status
   Status _status = Status.Uninitialized;
+  String _name = '';
 
   Status get status => _status;
+
+  String get name => _name;
 
   Stream<UserModel> get user => _auth.authStateChanges().map(_userFromFirebase);
 
@@ -92,6 +95,8 @@ class AuthProvider extends ChangeNotifier {
       ) async {
     try {
       _status = Status.Registering;
+      notifyListeners();
+      _name = firstName;
       notifyListeners();
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);

@@ -6,6 +6,7 @@ import 'package:hilmy/constants/app_styles.dart';
 import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/providers/auth_provider.dart';
 import 'package:hilmy/routes.dart';
+import 'package:hilmy/services/firestore_database.dart';
 import 'package:hilmy/ui/widgets/form/dropdown_input.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,7 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
 
   Widget _buildForm(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-
+   final firestoreDatabase =  Provider.of<FirestoreDatabase>(context, listen: false);
     return Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -585,6 +586,12 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
                               } else {
                                 Navigator.of(context)
                                     .pushReplacementNamed(Routes.home);
+                                firestoreDatabase.addService(
+                                  id: userModel.uid, 
+                                  firstName: _firstNameController.text, 
+                                  lastName: _lastNameController.text,
+                                  email: _emailController.text,  
+                                );
                               }
                             }
 

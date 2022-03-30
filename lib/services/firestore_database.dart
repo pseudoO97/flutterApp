@@ -77,10 +77,20 @@ class FirestoreDatabase {
 
    Future<void> addService({
       required String id,
+      required String email,
+      required String firstName,
+      required String lastName,
       }) async =>
       await _firestoreService.set(
         path: FirestorePath.service(id),
-        data: {'_created_at': Timestamp.now()},
+        data: {
+          '_created_at': Timestamp.now(), 
+          '_created': true, 
+          'online': false,
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+        },
       );
     Future<void> updateService({
         required String attribute,
@@ -92,15 +102,6 @@ class FirestoreDatabase {
         data: {attribute: value},
       );
 
-       Future<void> updateNameService({
-        required String firstName,
-        required String lastName,
-      required String id,
-      }) async =>
-      await _firestoreService.update(
-        path: FirestorePath.service(id),
-        data: {'first_name': firstName, 'last_name' : lastName},
-      );
 
   // RDV
 
@@ -127,9 +128,10 @@ class FirestoreDatabase {
    Future<void> addAppointment({
       required String individual_id,
       required String professionnal_id,
+      required String name,
     }) async =>
     await _firestoreService.add(
       path: FirestorePath.appointments(),
-      data: {'_created': true, 'individual_id': individual_id, 'professionnal_id': professionnal_id},
+      data: {'_created': true, 'individual_id': individual_id, 'professionnal_id': professionnal_id, 'individual_name': name},
     );
 }
