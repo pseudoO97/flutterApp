@@ -3,11 +3,16 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:hilmy/models/intervention_model.dart';
+import 'package:hilmy/models/person_model.dart';
+import 'package:hilmy/models/service_model.dart';
 import 'package:hilmy/models/task_model.dart';
+import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/services/firestore_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:hilmy/services/firestore_service.dart';
+
+import '../models/category_model.dart';
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
@@ -29,31 +34,49 @@ class FirestoreDatabase {
 
   final _firestoreService = FirestoreService.instance;
 
-  //Méthodes pour la collection des interventions
-  Stream<InterventionModel> interventionStream({required String uid}) =>
+  //Méthodes pour les utilisateurs
+  Stream<UserModel> userStream({required String uid}) =>
       _firestoreService.documentStream(
-        path: FirestorePath.intervention(uid),
+        path: FirestorePath.user(uid),
         builder: (data, documentId) =>
-            InterventionModel.fromMap(data, documentId),
+            UserModel.fromMap(data, documentId),
       );
 
-  Stream<List<InterventionModel>> interventionsStream() {
+      
+
+  Stream<List<InterventionModel>> usersStream() {
     return _firestoreService.collectionStream(
-      path: FirestorePath.interventions(),
-      queryBuilder: (query) => query.where('user_email',
-          isEqualTo: FirebaseAuth.instance.currentUser == null
-              ? false
-              : FirebaseAuth.instance.currentUser!.email),
+      path: FirestorePath.users(),
       builder: (data, documentId) =>
           InterventionModel.fromMap(data, documentId),
     );
   }
 
-  Future<void> updateData(
-          {required String interventionId,
+  Future<void> updateUserData(
+          {required String userId,
           required Map<String, dynamic> data}) async =>
       await _firestoreService.update(
-        path: FirestorePath.intervention(interventionId),
+        path: FirestorePath.user(userId),
         data: data,
       );
+
+  // Catégories
+  Stream<List<CategoryModel>> categoriesStream() {
+    return _firestoreService.collectionStream(
+      path: FirestorePath.categories(),
+      builder: (data, documentId) =>
+          CategoryModel.fromMap(data, documentId),
+    );
+  }
+
+  // Services
+  Stream<List<ServiceModel>> servicesStream({required String? searchKey}) {
+    return _firestoreService.collectionStream(
+      path: FirestorePath.services(),
+      queryBuilder: (query) => query
+      .where('name', arrayContains: searchKey),
+      builder: (data, documentId) =>
+          ServiceModel.fromMap(data, documentId),
+    );
+  }
 }

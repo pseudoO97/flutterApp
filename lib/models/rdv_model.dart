@@ -3,16 +3,16 @@ class RdvModel {
    final String id;
    final dynamic date;
    final bool? done;
-   final int? individual_id;
-   final int? professionnal_id;
+   final int? individualId;
+   final int? professionnalId;
 
   RdvModel({
       this.firebaseId, 
       required this.id,
       this.date,
       this.done,
-      this.individual_id,
-      this.professionnal_id
+      this.individualId,
+      this.professionnalId
       });
 
 
@@ -27,8 +27,8 @@ factory RdvModel.fromMap(Map<String, dynamic> data, String documentId) {
         id: id,
         date: date,
         done: done,
-        individual_id: individual_id,
-        professionnal_id: professionnal_id,
+        individualId: individual_id,
+        professionnalId: professionnal_id,
         );
   }
 
@@ -37,8 +37,8 @@ factory RdvModel.fromMap(Map<String, dynamic> data, String documentId) {
       'id': id,
       'date': date,
       'done': done,
-      'individual_id': individual_id,
-      'professionnal_id':professionnal_id
+      'individual_id': individualId,
+      'professionnal_id':professionnalId
     };
   }
 }

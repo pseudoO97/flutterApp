@@ -1,18 +1,18 @@
-class UserModel {
-  String uid;
-  String? firebaseId;
-  String? email;
-  String? firstName;
-  String? lastName;
-  String? birthday;
-  String? displayName;
-  String? type;
-  String? phoneNumber;
-  String? category;
-  String? address;
-  String? sexe;
+class PersonModel {
+  final String uid;
+  final String? firebaseId;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? birthday;
+  final String? displayName;
+  final String? type;
+  final String? phoneNumber;
+  final String? category;
+  final String? address;
+  final String? sexe;
 
-  UserModel(
+  PersonModel(
       {
       required this.uid,
       this.firebaseId,
@@ -27,7 +27,8 @@ class UserModel {
       this.address,
       this.sexe,
       });
-factory UserModel.fromMap(Map<String, dynamic> data, String documentId) {
+
+factory PersonModel.fromMap(Map<String, dynamic> data, String documentId) {
      String uid= data['id'];
      String? email = data['email'];
      String? firstName = data['first_name'];
@@ -39,7 +40,7 @@ factory UserModel.fromMap(Map<String, dynamic> data, String documentId) {
      String? address = data['address'];
      String? sexe = data['sexe'];
 
-    return UserModel(
+    return PersonModel(
         firebaseId: documentId,
         uid: uid,
         email: email,
