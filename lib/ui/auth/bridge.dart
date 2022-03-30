@@ -3,7 +3,7 @@ import 'package:hilmy/constants/app_colors.dart';
 import 'package:hilmy/routes.dart';
 
 class Bridge extends StatelessWidget {
-  const Bridge({ Key? key }) : super(key: key);
+  const Bridge({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,51 +13,67 @@ class Bridge extends StatelessWidget {
           Navigator.of(context).popAndPushNamed(Routes.login);
           return Future.value(false);
       },
-      child: Scaffold( 
-        body: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column( 
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                      Image.asset('images/people.png', height: 70, width: 70),
+      child: Scaffold(
+        backgroundColor: kLightBlue,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 200,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('images/people.png', height: 140, width: 140),
                       const Text('Êtes-vous : '),
                       const SizedBox(height: 24),
                       GestureDetector(
-                        onTap: () => { 
-                          Navigator.of(context).pushReplacementNamed(Routes.professionalRegister)
-                          },
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: kBlue
-                          ),
-                          child: const Text('Professionnel'),
-                        ),
-                      ),
-                      const SizedBox(width: 18,),
-                      GestureDetector(
                         onTap: () => {
-                           Navigator.of(context).pushReplacementNamed(Routes.individualRegister)
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.professionalRegister)
                         },
                         child: Container(
                           padding: const EdgeInsets.all(16),
-                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: kBlue
-                          ),
-                          child: const Text('Particulier'),
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              color: kViolet),
+                          child: const Text('Professionnel',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontFamily: 'Roboto-Black')),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.individualRegister)
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.all(16),
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              color: kViolet),
+                          child: const Text('Particulier',
+                              style:
+                                  TextStyle(fontSize: 22, color: Colors.white)),
                         ),
                       )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+    <<<<<<< HEAD
           ),
+    =======
+          ],
+    >>>>>>> 01ce7baf11872ffb26492a69dee6229bc6e82491
         ),
       ),
     );
