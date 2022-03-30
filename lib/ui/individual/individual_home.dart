@@ -20,7 +20,7 @@ class IndividualHome extends StatefulWidget {
 }
 
 class _IndividualHomeState extends State<IndividualHome> {
-  String name = '';
+  String category_name = '';
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -54,12 +54,12 @@ class _IndividualHomeState extends State<IndividualHome> {
               TextFormField(
                 onChanged: (value) => {
                   setState(() {
-                    name = value;
+                    category_name = value;
                   }),
                 },
               ),
               const SizedBox(height: 18),
-              name == '' ? 
+              category_name == '' ? 
               StreamBuilder(
                 stream: firestoreDatabase.categoriesStream(),
                 builder:  (context, snapshot) {
@@ -115,11 +115,11 @@ class _IndividualHomeState extends State<IndividualHome> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: snapshot.requireData.docs
-                            .where((service) => service['name'].contains(name.toLowerCase()))
+                            .where((service) => service['category'].contains(category_name) || service['sub_category'].contains(category_name))
                             .map((DocumentSnapshot<Object?> service) {
                           return Column(
                             children: [
-                              Text(service['name']),
+                              Text(service['category']),
                               ElevatedButton(
                                 onPressed: () => {
                                   showDialog(
@@ -129,7 +129,7 @@ class _IndividualHomeState extends State<IndividualHome> {
                                       width: 60,
                                       child: ElevatedButton(
                                         onPressed: () => {
-                                          firestoreDatabase.addAppointment(individual_id: _auth.currentUser!.uid, professionnal_id: service.id, name: authProvider.name)
+                                          firestoreDatabase.addAppointment(individual_id: _auth.currentUser!.uid, professionnal_id: service.id, professionnal_name: service['professionnal_name'] ,name:firstName,)
                                         } ,
                                         child: const Text('Je prends rendez-vous')
                                       ),

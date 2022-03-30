@@ -69,7 +69,7 @@ class FirestoreDatabase {
     return _firestoreService.collectionStream(
       path: FirestorePath.services(),
       queryBuilder: (query) => query
-      .where('name', arrayContains: searchKey),
+      .where('category', arrayContains: searchKey),
       builder: (data, documentId) =>
           ServiceModel.fromMap(data, documentId),
     );
@@ -90,6 +90,7 @@ class FirestoreDatabase {
           'first_name': firstName,
           'last_name': lastName,
           'email': email,
+          'category': null,
         },
       );
     Future<void> updateService({
@@ -128,10 +129,18 @@ class FirestoreDatabase {
    Future<void> addAppointment({
       required String individual_id,
       required String professionnal_id,
+      required String professionnal_name,
       required String name,
     }) async =>
     await _firestoreService.add(
       path: FirestorePath.appointments(),
-      data: {'_created': true, 'individual_id': individual_id, 'professionnal_id': professionnal_id, 'individual_name': name},
+      data: {
+        '_created': true, 
+        'individual_id': individual_id, 
+        'professionnal_id': professionnal_id, 
+        'professionnal_name': professionnal_name,
+        'individual_name': name,
+        'service_name': null,
+      },
     );
 }
