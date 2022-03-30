@@ -69,12 +69,9 @@ class Bridge extends StatelessWidget {
                 ),
               ],
             ),
-    <<<<<<< HEAD
-          ),
-    =======
-          ],
-    >>>>>>> 01ce7baf11872ffb26492a69dee6229bc6e82491
+          ]
         ),
+      
       ),
     );
   }

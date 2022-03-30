@@ -15,4 +15,3 @@ const Color kGrey = Color(0xFF264653);
 const Color kLightGrey = Color(0xFFF5F5F6);
 //Color kLightGrey = Color(0xFF264653).withOpacity(.08); // initialement .05
 const Color kWhite = Color(0xFFFFFFFF);
-const Color kViolet = Color(0xFF5824D2);

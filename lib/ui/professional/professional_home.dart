@@ -62,7 +62,10 @@ class _ProfessionalhomeState extends State<Professionalhome> {
                       onPressed: () => {
                         Navigator.of(context).popAndPushNamed(
                           Routes.formAddService,
-                          arguments: {'lastName' : user['last_name'], 'firstName': user['first_name']}
+                          arguments: {
+                            'lastName' : user['last_name'], 
+                            'firstName': user['first_name']
+                          }
                         ),
                         firestoreDatabase.addService(
                             id: _auth.currentUser!.uid
