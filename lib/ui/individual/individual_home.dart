@@ -77,7 +77,11 @@ class _IndividualHomeState extends State<IndividualHome> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.amber.shade200
                                    ),
-                                  child: Center(child: Text(categories[index].name ?? ''))
+                                  child: Column(
+                                    children: [
+                                      Center(child: Text(categories[index].name ?? '')),
+                                    ],
+                                  )
                                 ),
                               );
                             }, 
@@ -115,7 +119,7 @@ class _IndividualHomeState extends State<IndividualHome> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: snapshot.requireData.docs
-                            .where((service) => service['category'].contains(category_name) || service['sub_category'].contains(category_name))
+                            .where((service) => service['category'].contains(category_name))
                             .map((DocumentSnapshot<Object?> service) {
                           return Column(
                             children: [
