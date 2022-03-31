@@ -335,7 +335,7 @@ class _ProfessionalRegisterState extends State<ProfessionalRegister> {
                             attribute: 'category', items: [
                             {
                               "label": "Aide ménagère",
-                              "value": "aide_menagere"
+                              "value": "aide ménagère"
                             },
                             {
                               "label": "Loisirs",
