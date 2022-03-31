@@ -10,6 +10,8 @@ import 'package:hilmy/ui/widgets/form/dropdown_input.dart';
 import 'package:provider/provider.dart';
 
 class IndividualRegister extends StatefulWidget {
+  const IndividualRegister({Key? key}) : super(key: key);
+
   @override
   _IndividualRegisterState createState() => _IndividualRegisterState();
 }
@@ -41,15 +43,12 @@ class _IndividualRegisterState extends State<IndividualRegister> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-         Navigator.of(context).popAndPushNamed(Routes.bridge);
-          return Future.value(false);
+        Navigator.of(context).popAndPushNamed(Routes.bridge);
+        return Future.value(false);
       },
       child: MaterialApp(
         key: _scaffoldKey,
-        home: Scaffold(
-          backgroundColor: kWhite,
-          body: _buildForm(context)
-        ),
+        home: Scaffold(backgroundColor: kWhite, body: _buildForm(context)),
       ),
     );
   }
@@ -74,13 +73,12 @@ class _IndividualRegisterState extends State<IndividualRegister> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Center(child: textSection),
                 ),
                 Container(
-                // Sexe
+                  // Sexe
                   decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
@@ -113,20 +111,13 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                         width: 230,
                         child: Center(
                           child: DropdownInput(
-                            attribute: 'sexe', items: [
-                            {
-                              "label": "homme",
-                              "value": "male"
-                            },
-                            {
-                              "label": "Femme",
-                              "value": "female"
-                            },
-                            {
-                              "label": "Autre",
-                              "value": "other"
-                            },
-                          ], label: ''),
+                              attribute: 'sexe',
+                              items: [
+                                {"label": "homme", "value": "male"},
+                                {"label": "Femme", "value": "female"},
+                                {"label": "Autre", "value": "other"},
+                              ],
+                              label: ''),
                         ),
                       ),
                     ],
@@ -134,7 +125,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                 ),
                 const SizedBox(height: 16),
                 Container(
-                // First name
+                  // First name
                   decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
@@ -169,7 +160,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                           child: TextFormField(
                             controller: _firstNameController,
                             validator: (value) => value!.isEmpty
-                                ?  "Veuillez renseigner votre prénom"
+                                ? "Veuillez renseigner votre prénom"
                                 : null,
                             textAlign: TextAlign.left,
                             obscureText: false,
@@ -186,8 +177,8 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                 Container(
-                // Last name
+                Container(
+                  // Last name
                   decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
@@ -222,7 +213,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                           child: TextFormField(
                             controller: _lastNameController,
                             validator: (value) => value!.isEmpty
-                                ?  "Veuillez renseigner votre nom"
+                                ? "Veuillez renseigner votre nom"
                                 : null,
                             textAlign: TextAlign.left,
                             obscureText: false,
@@ -239,8 +230,8 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                 Container(
-                // Birthday
+                Container(
+                  // Birthday
                   decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
@@ -275,7 +266,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                           child: TextFormField(
                             controller: _birthdayController,
                             validator: (value) => value!.isEmpty
-                                ?  "Veuillez renseigner votre date de naissance"
+                                ? "Veuillez renseigner votre date de naissance"
                                 : null,
                             textAlign: TextAlign.left,
                             obscureText: false,
@@ -293,7 +284,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                 ),
                 const SizedBox(height: 16),
                 Container(
-                // email
+                  // email
                   decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
@@ -328,7 +319,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                           child: TextFormField(
                             controller: _emailController,
                             validator: (value) => value!.isEmpty
-                                ?  "Veuillez renseigner un email valide"
+                                ? "Veuillez renseigner un email valide"
                                 : null,
                             textAlign: TextAlign.left,
                             obscureText: false,
@@ -406,8 +397,7 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                           primary: kLightGreen,
                           padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
                           shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15)),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),
                         ),
                         child: Text(
@@ -423,18 +413,18 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                             FocusScope.of(context)
                                 .unfocus(); //to hide the keyboard - if any
 
-                            UserModel userModel = await authProvider
-                                .registerWithEmailAndPassword(
-                                     _emailController.text,
-                                  _passwordController.text,
-                                  'individual',
-                                  '',
-                                  _firstNameController.text,
-                                  _lastNameController.text,
-                                  _addressController.text,
-                                  _birthdayController.text,
-                                  _sexeController.text,
-                              );
+                            UserModel userModel =
+                                await authProvider.registerWithEmailAndPassword(
+                              _emailController.text,
+                              _passwordController.text,
+                              'individual',
+                              '',
+                              _firstNameController.text,
+                              _lastNameController.text,
+                              _addressController.text,
+                              _birthdayController.text,
+                              _sexeController.text,
+                            );
 
                             if (userModel.uid == 'weak-password') {
                               showDialog(
@@ -446,8 +436,8 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                                 'email-already-in-use') {
                               showDialog(
                                 context: context,
-                                builder: (context) => errorMessage(
-                                    'Cet email est déjà utilisé'),
+                                builder: (context) =>
+                                    errorMessage('Cet email est déjà utilisé'),
                               );
                             } else if (userModel.uid == 'invalid-email') {
                               showDialog(
@@ -458,12 +448,12 @@ class _IndividualRegisterState extends State<IndividualRegister> {
                             } else if (userModel.uid == 'unknown') {
                               showDialog(
                                 context: context,
-                                builder: (context) => errorMessage(
-                                    'Remplissez tous les champs'),
+                                builder: (context) =>
+                                    errorMessage('Remplissez tous les champs'),
                               );
                             } else {
-                              bool status = await authProvider
-                                  .signInWithEmailAndPassword(
+                              bool status =
+                                  await authProvider.signInWithEmailAndPassword(
                                       _emailController.text,
                                       _passwordController.text);
 

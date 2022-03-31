@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({ Key? key, required this.databaseBuilder }) : super(key: key);
+  const MyApp({Key? key, required this.databaseBuilder}) : super(key: key);
   final FirestoreDatabase Function(BuildContext context, String uid)
       databaseBuilder;
   @override
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   // void _checkVersion() {
   //   final newVersion = NewVersion(
   //     androidId: 'com.mds.digital_project',
-  //     iOSId: 'com.mds.digital_project', 
+  //     iOSId: 'com.mds.digital_project',
   //     );
   //     newVersion.showAlertIfNecessary(context: context);
   // }
@@ -41,19 +41,19 @@ class _MyAppState extends State<MyApp> {
       builder: (_, themeProviderRef, __) {
         return AuthWidgetBuilder(
           databaseBuilder: widget.databaseBuilder,
-          builder: (BuildContext context,
-              AsyncSnapshot<UserModel> userSnapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<UserModel> userSnapshot) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Hilmi',
               routes: Routes.routes,
-          themeMode: themeProviderRef.isDarkModeOn
-              ? ThemeMode.dark
-              : ThemeMode.light,
-          home: userSnapshot.connectionState == ConnectionState.active &&
-                  FirebaseAuth.instance.currentUser != null
-              ? HomeScreen()
-              : SignInScreen(),
+              themeMode: themeProviderRef.isDarkModeOn
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+              home: userSnapshot.connectionState == ConnectionState.active &&
+                      FirebaseAuth.instance.currentUser != null
+                  ? HomeScreen()
+                  : SignInScreen(),
             );
           },
           key: Key('AuthWidget'),

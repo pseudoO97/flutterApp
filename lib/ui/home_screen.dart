@@ -12,7 +12,7 @@ import 'package:hilmy/ui/professional/professional_home.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({ Key? key }) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -21,34 +21,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    
-   final firestoreDatabase =  Provider.of<FirestoreDatabase>(context, listen: false);
+    final firestoreDatabase =
+        Provider.of<FirestoreDatabase>(context, listen: false);
     return WillPopScope(
-       onWillPop: () {
-         Navigator.of(context).popAndPushNamed(Routes.login);
-          return Future.value(false);
+      onWillPop: () {
+        Navigator.of(context).popAndPushNamed(Routes.login);
+        return Future.value(false);
       },
       child: StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
-            builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Text("Something went wrong");
-                } else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: Text('Loading...')
-                  );
-                }
-                final DocumentSnapshot<Object?> user =
-                    snapshot.requireData;
-                    if (user['type'] == 'professional') {
-                      return Professionalhome(
-                        firstName:user['first_name']
-                      );
-                    } 
-                    return IndividualHome(
-                      firstName: user['first_name'],
-                    );
-            }),
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: Text('Loading...'));
+            }
+            final DocumentSnapshot<Object?> user = snapshot.requireData;
+            if (user['type'] == 'professional') {
+              return Professionalhome(firstName: user['first_name']);
+            }
+            return IndividualHome(
+              firstName: user['first_name'],
+            );
+          }),
     );
   }
 }

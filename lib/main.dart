@@ -41,7 +41,7 @@ void main() async {
       ],
       child: MyApp(
         databaseBuilder: (_, uid) => FirestoreDatabase(uid: uid),
-        key: Key('MyApp'),
+        key: const Key('MyApp'),
       ),
     ),
   );
