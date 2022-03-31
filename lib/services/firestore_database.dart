@@ -1,11 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:hilmy/models/appointment_model.dart';
 import 'package:hilmy/models/intervention_model.dart';
-import 'package:hilmy/models/person_model.dart';
 import 'package:hilmy/models/service_model.dart';
-import 'package:hilmy/models/task_model.dart';
 import 'package:hilmy/models/user_model.dart';
 import 'package:hilmy/services/firestore_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,15 +37,13 @@ class FirestoreDatabase {
         path: FirestorePath.user(uid),
         builder: (data, documentId) =>
             UserModel.fromMap(data, documentId),
-      );
+  );
 
-      
-
-  Stream<List<InterventionModel>> usersStream() {
+  Stream<List<UserModel>> usersStream() {
     return _firestoreService.collectionStream(
       path: FirestorePath.users(),
       builder: (data, documentId) =>
-          InterventionModel.fromMap(data, documentId),
+          UserModel.fromMap(data, documentId),
     );
   }
 
@@ -58,7 +53,7 @@ class FirestoreDatabase {
       await _firestoreService.update(
         path: FirestorePath.user(userId),
         data: data,
-      );
+  );
 
   // Catégories
   Stream<List<CategoryModel>> categoriesStream() {
@@ -74,9 +69,78 @@ class FirestoreDatabase {
     return _firestoreService.collectionStream(
       path: FirestorePath.services(),
       queryBuilder: (query) => query
-      .where('name', arrayContains: searchKey),
+      .where('category', arrayContains: searchKey),
       builder: (data, documentId) =>
           ServiceModel.fromMap(data, documentId),
     );
   }
+
+   Future<void> addService({
+      required String id,
+      required String email,
+      required String firstName,
+      required String lastName,
+      }) async =>
+      await _firestoreService.set(
+        path: FirestorePath.service(id),
+        data: {
+          '_created_at': Timestamp.now(), 
+          '_created': true, 
+          'online': false,
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'category': null,
+        },
+      );
+    Future<void> updateService({
+        required String attribute,
+      required dynamic value,
+      required String id,
+      }) async =>
+      await _firestoreService.update(
+        path: FirestorePath.service(id),
+        data: {attribute: value},
+      );
+
+
+  // RDV
+
+  Stream<AppointmentModel> appointmentStream({required String uid}) =>
+      _firestoreService.documentStream(
+        path: FirestorePath.appointment(uid),
+        builder: (data, documentId) =>
+            AppointmentModel.fromMap(data, documentId),
+      );
+
+  Stream<List<AppointmentModel>> appointmentsStream({
+    required String role,
+    required String id,
+  }) {
+    return _firestoreService.collectionStream(
+      path: FirestorePath.appointments(),
+      builder: (data, documentId) =>
+          AppointmentModel.fromMap(data, documentId),
+          queryBuilder: (query) => query
+          .where(role, isEqualTo: id)
+    );
+  }
+
+   Future<void> addAppointment({
+      required String individual_id,
+      required String professionnal_id,
+      required String professionnal_name,
+      required String name,
+    }) async =>
+    await _firestoreService.add(
+      path: FirestorePath.appointments(),
+      data: {
+        '_created': true, 
+        'individual_id': individual_id, 
+        'professionnal_id': professionnal_id, 
+        'professionnal_name': professionnal_name,
+        'individual_name': name,
+        'service_name': null,
+      },
+    );
 }

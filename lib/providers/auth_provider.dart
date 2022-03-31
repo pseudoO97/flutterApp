@@ -32,8 +32,13 @@ class AuthProvider extends ChangeNotifier {
   late FirestoreDatabase firestoreDatabase;
   //Default status
   Status _status = Status.Uninitialized;
+  String _name = '';
+  String _type = '';
 
   Status get status => _status;
+
+  String get name => _name;
+  String get type => _type;
 
   Stream<UserModel> get user => _auth.authStateChanges().map(_userFromFirebase);
 
@@ -64,7 +69,7 @@ class AuthProvider extends ChangeNotifier {
         email: user.email,
         displayName: user.displayName,
         phoneNumber: user.phoneNumber,
-        );
+    );
   }
 
   //Method to detect live auth changes such as user sign in and sign out
@@ -93,6 +98,9 @@ class AuthProvider extends ChangeNotifier {
     try {
       _status = Status.Registering;
       notifyListeners();
+      _name = firstName;
+      _type = type;
+      notifyListeners();
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
   
@@ -106,6 +114,7 @@ class AuthProvider extends ChangeNotifier {
       'birthday': birthday,
     });
 
+    //getUser(_auth.currentUser!.uid, email, firstName);
       return _userFromFirebase(result.user);
     } on FirebaseAuthException catch (e) {
       print("Error on the new user registration = " + e.toString());
@@ -129,6 +138,10 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  //  getUser(String uid, String email, String firstName){
+  //       return UserModel(uid: uid, email: email, firstName: firstName);
+  //     }
 
   //Method to handle password reset email
   Future<void> sendPasswordResetEmail(String email) async {

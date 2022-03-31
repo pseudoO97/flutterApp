@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hilmy/constants/app_styles.dart';
 import 'package:hilmy/models/category_model.dart';
 import 'package:hilmy/models/service_model.dart';
+import 'package:hilmy/models/user_model.dart';
+import 'package:hilmy/providers/auth_provider.dart';
 import 'package:hilmy/routes.dart';
 import 'package:hilmy/services/firestore_database.dart';
+import 'package:hilmy/ui/widgets/bottom_app.bar.dart';
 import 'package:provider/provider.dart';
 
 class IndividualHome extends StatefulWidget {
@@ -17,9 +20,11 @@ class IndividualHome extends StatefulWidget {
 }
 
 class _IndividualHomeState extends State<IndividualHome> {
-  String name = '';
+  String category_name = '';
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    var _auth = FirebaseAuth.instance;
   final firestoreDatabase =
         Provider.of<FirestoreDatabase>(context, listen: false);
     String firstName = widget.firstName;
@@ -49,12 +54,12 @@ class _IndividualHomeState extends State<IndividualHome> {
               TextFormField(
                 onChanged: (value) => {
                   setState(() {
-                    name = value;
+                    category_name = value;
                   }),
                 },
               ),
               const SizedBox(height: 18),
-              name == '' ? 
+              category_name == '' ? 
               StreamBuilder(
                 stream: firestoreDatabase.categoriesStream(),
                 builder:  (context, snapshot) {
@@ -72,7 +77,11 @@ class _IndividualHomeState extends State<IndividualHome> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.amber.shade200
                                    ),
-                                  child: Center(child: Text(categories[index].name ?? ''))
+                                  child: Column(
+                                    children: [
+                                      Center(child: Text(categories[index].name ?? '')),
+                                    ],
+                                  )
                                 ),
                               );
                             }, 
@@ -110,9 +119,31 @@ class _IndividualHomeState extends State<IndividualHome> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: snapshot.requireData.docs
-                            .where((service) => service['name'].contains(name))
+                            .where((service) => service['category'].contains(category_name))
                             .map((DocumentSnapshot<Object?> service) {
-                          return Text(service['name']);
+                          return Column(
+                            children: [
+                              Text(service['category']),
+                              ElevatedButton(
+                                onPressed: () => {
+                                  showDialog(
+                                    context: context, 
+                                    builder: (context) => Container(
+                                      height: 60,
+                                      width: 60,
+                                      child: ElevatedButton(
+                                        onPressed: () => {
+                                          firestoreDatabase.addAppointment(individual_id: _auth.currentUser!.uid, professionnal_id: service.id, professionnal_name: service['professionnal_name'] ,name:firstName,)
+                                        } ,
+                                        child: const Text('Je prends rendez-vous')
+                                      ),
+                                    ),
+                                  ),
+                                }, 
+                                child: const Text('Prendre rendez-vous'),
+                              ),
+                            ],
+                          );
                         }).toList(), // Très important sinon les types ne sont pas compatibles
                       ),
                     ),
@@ -121,6 +152,9 @@ class _IndividualHomeState extends State<IndividualHome> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: const BottomAppBarWidget(
+        type: 'individual_id',
       ),
     );
   }

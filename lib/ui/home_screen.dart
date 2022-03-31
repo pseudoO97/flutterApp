@@ -37,7 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: Text('Loading...'));
+              return const Center(
+                child: Scaffold(
+                  body: Center(
+                    child: Text('Loading'),
+                  ),
+                ),
+              );
+            }
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Scaffold(
+                  body: Center(
+                    child: Text('Loading'),
+                  ),
+                ),
+              );
             }
             final DocumentSnapshot<Object?> user = snapshot.requireData;
             if (user['type'] == 'professional') {
