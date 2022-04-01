@@ -90,6 +90,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 60,
                         child: Row(
                           children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.login,
+                                color: Colors.black,
+                              ),
+                              onPressed: () => {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(Routes.login)
+                              },
+                            ),
                             Container(
                               height: 10,
                               width: 60,
@@ -123,6 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           ],
                         ),
                       ),
+                      ////////
                       const SizedBox(height: 16),
                       Container(
                         decoration: BoxDecoration(
@@ -163,6 +174,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           ],
                         ),
                       ),
+
                       const SizedBox(height: 24),
                       authProvider.status == Status.Authenticating
                           ? const Center(
