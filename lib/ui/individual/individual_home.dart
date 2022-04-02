@@ -55,173 +55,189 @@ class _IndividualHomeState extends State<IndividualHome> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(40)),
-                  color: Colors.white,
-                  border: Border.all(
-                      color: kViolet, width: 2.0, style: BorderStyle.solid),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.circular(20),
-                        //   color: Colors.white,
-                        // ),
-                        ),
-                    Expanded(
-                      child: SizedBox(
-                        height: 40,
-                        child: Center(
-                          child: TextFormField(
-                            onChanged: (value) => {
-                              setState(() {
-                                category_name = value;
-                              }),
-                            },
-                            decoration: const InputDecoration(
-                              hintText: '  Enter a search term',
-                              border: InputBorder.none,
-                            ),
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    color: Colors.white,
+                    border: Border.all(
+                        color: kViolet, width: 2.0, style: BorderStyle.solid),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                          // decoration: BoxDecoration(
+                          //   borderRadius: BorderRadius.circular(20),
+                          //   color: Colors.white,
+                          // ),
                           ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.search,
-                        color: kViolet,
-                      ),
-                      onPressed: () => {},
-                      iconSize: 32,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 18),
-              category_name == ''
-                  ? StreamBuilder(
-                      stream: firestoreDatabase.categoriesStream(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<CategoryModel> categories =
-                              snapshot.data as List<CategoryModel>;
-                          if (categories.isNotEmpty) {
-                            return GridView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: categories.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  child: Container(
-                                      height: 200,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                categories[index]
-                                                    .path
-                                                    .toString(),
-                                              ),
-                                              fit: BoxFit.fill),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
-                                          border: Border.all(color: kViolet)),
-                                      child: Column(
-                                        children: [
-                                          Center(
-                                              child: Text(
-                                                  categories[index].path ??
-                                                      '')),
-                                        ],
-                                      )),
-                                );
+                      Expanded(
+                        child: SizedBox(
+                          height: 30,
+                          child: Center(
+                            child: TextFormField(
+                              onChanged: (value) => {
+                                setState(() {
+                                  category_name = value;
+                                }),
                               },
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisExtent: 100,
-                                crossAxisSpacing: 30,
-                                mainAxisSpacing: 50,
-                                crossAxisCount: 2,
-                                childAspectRatio: 2,
+                              decoration: const InputDecoration(
+                                hintText: ' Rechercher un service...',
+                                hintStyle: TextStyle(
+                                    fontFamily: 'Cairo',
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold,
+                                    color: kViolet),
+                                border: InputBorder.none,
                               ),
-                            );
-                          }
-                        }
-                        if (!snapshot.hasData) {
-                          print(snapshot.error);
-                        }
-                        return const Text('pas de données');
-                      })
-                  : StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('services')
-                          .snapshots(),
-                      builder:
-                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return const Text("Something went wrong");
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(child: Text('Loading...'));
-                        }
-                        if (!snapshot.hasData) {
-                          return const Text('Pas de résultats');
-                        }
-                        return SizedBox(
-                          width: 550.0,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: snapshot.requireData.docs
-                                  .where((service) => service['category']
-                                      .contains(category_name))
-                                  .map((DocumentSnapshot<Object?> service) {
-                                return Column(
-                                  children: [
-                                    Text(service['category']),
-                                    ElevatedButton(
-                                      onPressed: () => {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => Container(
-                                            height: 60,
-                                            width: 60,
-                                            child: ElevatedButton(
-                                                onPressed: () => {
-                                                      firestoreDatabase
-                                                          .addAppointment(
-                                                        individual_id: _auth
-                                                            .currentUser!.uid,
-                                                        professionnal_id:
-                                                            service.id,
-                                                        professionnal_name: service[
-                                                            'professionnal_name'],
-                                                        name: firstName,
-                                                      )
-                                                    },
-                                                child: const Text(
-                                                    'Je prends rendez-vous')),
-                                          ),
-                                        ),
-                                      },
-                                      child: const Text('Prendre rendez-vous'),
-                                    ),
-                                  ],
-                                );
-                              }).toList(), // Très important sinon les types ne sont pas compatibles
+                              cursorWidth: 4,
+                              cursorColor: kViolet,
+                              cursorRadius: const Radius.circular(4),
+                              cursorHeight: 20,
                             ),
                           ),
-                        );
-                      }),
-            ],
-          ),
-        ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.search,
+                          color: kViolet,
+                        ),
+                        onPressed: () => {},
+                        iconSize: 32,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 18),
+                category_name == ''
+                    ? StreamBuilder(
+                        stream: firestoreDatabase.categoriesStream(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<CategoryModel> categories =
+                                snapshot.data as List<CategoryModel>;
+                            if (categories.isNotEmpty) {
+                              return GridView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: categories.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    child: Container(
+                                        height: 200,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                  categories[index]
+                                                      .path
+                                                      .toString(),
+                                                ),
+                                                fit: BoxFit.fill),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                            border: Border.all(color: kViolet)),
+                                        child: Column(
+                                          children: [
+                                            Center(
+                                                child: Text(
+                                              categories[index].path ?? '',
+                                              style: const TextStyle(
+                                                color: kViolet,
+                                                fontFamily: 'Roboto-Black',
+                                                fontSize: 20,
+                                              ),
+                                            )),
+                                          ],
+                                        )),
+                                  );
+                                },
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 100,
+                                  crossAxisSpacing: 30,
+                                  mainAxisSpacing: 50,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 2,
+                                ),
+                              );
+                            }
+                          }
+                          if (!snapshot.hasData) {
+                            print(snapshot.error);
+                          }
+                          return const Text('pas de données');
+                        })
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('services')
+                            .snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text("Something went wrong");
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(child: Text('Loading...'));
+                          }
+                          if (!snapshot.hasData) {
+                            return const Text('Pas de résultats');
+                          }
+                          return SizedBox(
+                            width: 550.0,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: snapshot.requireData.docs
+                                    .where((service) => service['category']
+                                        .contains(category_name))
+                                    .map((DocumentSnapshot<Object?> service) {
+                                  return Column(
+                                    children: [
+                                      Text(service['category']),
+                                      ElevatedButton(
+                                        onPressed: () => {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => Container(
+                                              height: 60,
+                                              width: 60,
+                                              child: ElevatedButton(
+                                                  onPressed: () => {
+                                                        firestoreDatabase
+                                                            .addAppointment(
+                                                          individual_id: _auth
+                                                              .currentUser!.uid,
+                                                          professionnal_id:
+                                                              service.id,
+                                                          professionnal_name:
+                                                              service[
+                                                                  'professionnal_name'],
+                                                          name: firstName,
+                                                        )
+                                                      },
+                                                  child: const Text(
+                                                      'Je prends rendez-vous')),
+                                            ),
+                                          ),
+                                        },
+                                        child:
+                                            const Text('Prendre rendez-vous'),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(), // Très important sinon les types ne sont pas compatibles
+                              ),
+                            ),
+                          );
+                        }),
+              ],
+            )),
       ),
       bottomNavigationBar: const BottomAppBarWidget(
         type: 'individual_id',

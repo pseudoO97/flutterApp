@@ -90,16 +90,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 60,
                         child: Row(
                           children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.login,
-                                color: Colors.black,
-                              ),
-                              onPressed: () => {
-                                Navigator.of(context)
-                                    .pushReplacementNamed(Routes.login)
-                              },
-                            ),
+                            // IconButton(
+                            //   icon: const Icon(
+                            //     Icons.login,
+                            //     color: Colors.black,
+                            //   ),
+                            //   onPressed: () => {
+                            //     Navigator.of(context)
+                            //         .pushReplacementNamed(Routes.login)
+                            //   },
+                            // ),
                             Container(
                               height: 10,
                               width: 60,
@@ -111,8 +111,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             Column(
                               children: [
                                 SizedBox(
-                                  height: 40,
-                                  width: 130,
+                                  height: 42,
+                                  width: 100,
                                   child: TextFormField(
                                     controller: _emailController,
                                     validator: (value) => value!.isEmpty
@@ -122,9 +122,19 @@ class _SignInScreenState extends State<SignInScreen> {
                                     obscureText: false,
                                     decoration: const InputDecoration(
                                       hintText: 'Identifiant',
+                                      hintStyle: TextStyle(
+                                          fontFamily: 'Cairo',
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.bold),
                                       border: InputBorder.none,
                                     ),
+                                    // maxLength: 15,
+                                    cursorWidth: 4,
+                                    cursorColor: kViolet,
+                                    cursorRadius: const Radius.circular(4),
                                     autocorrect: false,
+                                    cursorHeight: 20,
+
                                     keyboardType: TextInputType.emailAddress,
                                   ),
                                 ),
@@ -166,8 +176,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                   obscureText: true,
                                   decoration: const InputDecoration(
                                     hintText: 'Mot de passe',
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Cairo',
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold),
                                     border: InputBorder.none,
                                   ),
+                                  cursorWidth: 4,
+                                  cursorColor: kViolet,
+                                  cursorHeight: 20,
+                                  cursorRadius: const Radius.circular(4),
                                 ),
                               ),
                             ),
